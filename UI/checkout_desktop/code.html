@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Checkout | Saumya's Table</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-secondary": "#ffffff",
+                "inverse-on-surface": "#f3f0ef",
+                "on-tertiary-container": "#003623",
+                "error": "#ba1a1a",
+                "primary": "#9a4601",
+                "on-secondary-fixed": "#1e1b16",
+                "tertiary-fixed": "#b1f0ce",
+                "inverse-primary": "#ffb68c",
+                "on-error": "#ffffff",
+                "secondary-fixed-dim": "#ccc6bc",
+                "on-surface": "#1c1b1b",
+                "on-tertiary": "#ffffff",
+                "surface-container-low": "#f6f3f2",
+                "secondary-fixed": "#e8e2d8",
+                "tertiary": "#2c694e",
+                "surface-variant": "#e5e2e1",
+                "on-secondary-fixed-variant": "#4a463f",
+                "background": "#fcf9f8",
+                "surface-container-highest": "#e5e2e1",
+                "error-container": "#ffdad6",
+                "on-error-container": "#93000a",
+                "primary-container": "#e07b39",
+                "surface-container-high": "#eae7e7",
+                "secondary": "#625e56",
+                "primary-fixed-dim": "#ffb68c",
+                "primary-fixed": "#ffdbc9",
+                "on-primary-fixed": "#321200",
+                "outline": "#897367",
+                "on-tertiary-fixed": "#002114",
+                "surface-tint": "#9a4601",
+                "outline-variant": "#dcc1b4",
+                "tertiary-container": "#65a284",
+                "surface-dim": "#dcd9d9",
+                "surface-bright": "#fcf9f8",
+                "on-secondary-container": "#68645c",
+                "on-tertiary-fixed-variant": "#0e5138",
+                "on-primary-container": "#4f2100",
+                "on-surface-variant": "#554339",
+                "on-primary-fixed-variant": "#763400",
+                "inverse-surface": "#313030",
+                "surface": "#fcf9f8",
+                "surface-container-lowest": "#ffffff",
+                "surface-container": "#f0eded",
+                "on-primary": "#ffffff",
+                "tertiary-fixed-dim": "#95d4b3",
+                "secondary-container": "#e8e2d8",
+                "on-background": "#1c1b1b"
+              },
+              fontFamily: {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Noto Serif"],
+                "label": ["Plus Jakarta Sans"]
+              },
+              borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fcf9f8;
+            color: #1c1b1b;
+        }
+        .editorial-shadow {
+            box-shadow: 0 40px 60px -20px rgba(28, 27, 27, 0.06);
+        }
+    </style>
+</head>
+<body class="font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Anchor (As per Shared Components JSON) -->
+<header class="fixed top-0 w-full z-50 px-6 py-4 bg-[#fcf9f8]/80 dark:bg-[#1c1b1b]/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<nav class="flex justify-between items-center w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#9a4601] hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform">arrow_back</button>
+<span class="font-noto-serif italic font-bold text-[#9a4601] dark:text-[#e07b39] text-xl">Saumya's Table</span>
+</div>
+<div class="hidden md:flex gap-8 items-center font-headline font-semibold text-sm">
+<a class="text-[#1c1b1b] hover:opacity-80 transition-opacity" href="#">Menu</a>
+<a class="text-[#1c1b1b] hover:opacity-80 transition-opacity" href="#">The Story</a>
+<a class="text-[#9a4601] font-bold" href="#">Checkout</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#9a4601] hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform">shopping_cart</button>
+</div>
+</nav>
+</header>
+<main class="pt-24 pb-20 max-w-screen-xl mx-auto px-6">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Left Column: Checkout Steps -->
+<div class="lg:col-span-8 space-y-12">
+<div class="space-y-2">
+<h1 class="font-headline font-extrabold text-4xl tracking-tight text-on-surface">Finalize Your Order</h1>
+<p class="font-body text-secondary text-lg">Secure and simple. Your Sri Lankan feast is just a few steps away.</p>
+</div>
+<!-- Step 1: Delivery Address -->
+<section class="bg-surface-container-lowest p-8 rounded-xl editorial-shadow space-y-6">
+<div class="flex items-center gap-4">
+<span class="w-10 h-10 rounded-full bg-tertiary-container text-white flex items-center justify-center font-headline font-bold">1</span>
+<h2 class="font-headline font-bold text-2xl text-on-surface">Delivery Destination</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="font-headline font-semibold text-xs text-secondary uppercase tracking-widest">Full Name</label>
+<input class="w-full bg-surface-container border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" placeholder="Anushka Perera" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-headline font-semibold text-xs text-secondary uppercase tracking-widest">Street Address</label>
+<input class="w-full bg-surface-container border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" placeholder="45 Galle Road, Colombo 03" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="font-headline font-semibold text-xs text-secondary uppercase tracking-widest">Apt/Suite</label>
+<input class="w-full bg-surface-container border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" placeholder="B4" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-headline font-semibold text-xs text-secondary uppercase tracking-widest">Phone</label>
+<input class="w-full bg-surface-container border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" placeholder="+94 77 123 4567" type="tel"/>
+</div>
+</div>
+</div>
+<div class="relative h-64 md:h-full min-h-[250px] rounded-lg overflow-hidden group">
+<img class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 transition-all duration-700" data-alt="stylized vector map of Colombo Sri Lanka city streets with warm parchment background and primary color accents" data-location="Colombo, Sri Lanka" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTYY-HPy4_sEyBYFLA-4h-0vykJjwpvjAmGLIwxO_ZkfR2_wrtG-8AQVOIMtOE6_HFPQK850ubCO1krgJZ1Nlw89GBIKurmkqqrWZn-ptqmXERWoM2JyojHfmLqz0r18dmDvAKKNFy8WW_OoQDxxe9KqZUttJYV-l5JVQdfN4wAZyFLeApHBn1CeuRBg4zNxGPTflHBgdsJyeijkG8EWPhaW1tz0HN5IWOz5DWhNL41BmwGPSiw3kN1MHE2_xus-OtVidJ2Ob5rwk"/>
+<div class="absolute inset-0 bg-primary/5 pointer-events-none"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<div class="bg-surface-container-lowest px-4 py-2 rounded-full shadow-lg mt-2 font-headline font-bold text-xs">Pin Dropped</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Step 2: Payment Method -->
+<section class="bg-surface-container-lowest p-8 rounded-xl editorial-shadow space-y-6">
+<div class="flex items-center gap-4">
+<span class="w-10 h-10 rounded-full bg-tertiary-container text-white flex items-center justify-center font-headline font-bold">2</span>
+<h2 class="font-headline font-bold text-2xl text-on-surface">Payment Method</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Cash on Delivery Card -->
+<div class="border-2 border-primary p-6 rounded-lg bg-primary/[0.03] cursor-pointer flex flex-col justify-between h-48 group">
+<div class="flex justify-between items-start">
+<div class="bg-primary-container/20 p-3 rounded-full">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-primary flex items-center justify-center">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+</div>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg">Cash on Delivery</h3>
+<p class="font-body text-secondary text-sm">Pay when you receive your meal.</p>
+</div>
+</div>
+<!-- Bank Transfer Card -->
+<div class="border-2 border-transparent hover:border-outline-variant p-6 rounded-lg bg-surface-container cursor-pointer flex flex-col justify-between h-48 transition-all group">
+<div class="flex justify-between items-start">
+<div class="bg-secondary-container p-3 rounded-full">
+<span class="material-symbols-outlined text-on-secondary-container">account_balance</span>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant"></div>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg">Bank Transfer</h3>
+<p class="font-body text-secondary text-sm">Transfer details provided on next step.</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container p-6 rounded-lg">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-tertiary">verified_user</span>
+<p class="font-headline font-semibold text-sm text-tertiary">Bank Transfer Security Details</p>
+</div>
+<div class="grid grid-cols-2 gap-4 text-sm font-headline">
+<div>
+<p class="text-secondary">Bank Name</p>
+<p class="font-bold">Ceylon Commercial Bank</p>
+</div>
+<div>
+<p class="text-secondary">Account No</p>
+<p class="font-bold">890 123 4567 22</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Order Summary (Integrated Side Panel) -->
+<aside class="lg:col-span-4 lg:sticky lg:top-24 h-fit">
+<div class="bg-surface-container p-8 rounded-xl editorial-shadow space-y-8">
+<h2 class="font-headline font-bold text-2xl text-on-surface">Your Selection</h2>
+<div class="space-y-6">
+<!-- Item 1 -->
+<div class="flex gap-4">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="top-down vibrant photo of sri lankan lamprais wrapped in banana leaf on a rustic wooden table with spices scattered" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMcB3ZTFbOBPwcMCjy4Pn8HGfe1vBwqltkT3DuPBiuv61lgNul-2Yyo_MfSOUMZrKDtdoxkOlPsKEooTiXjrsFq4s4g6aJfrCVoRvvUkvXlcfByuntp7OtHX4AnVQyWfyUTR-CUxklK3R2W4WZ5VeeEBYHOyb9T20sXd0d0WLZ3I7YocIjtivKOGwAz89Cl8BjR9JC0eP_2BxuxLs4inbJvm6FrGZpSqJ2utAQrv63sjUeAr5cMOfx3jkEpFofE5mBOuLJ4k6ftqI"/>
+</div>
+<div class="flex-grow">
+<h4 class="font-noto-serif font-bold text-on-surface">Traditional Lamprais</h4>
+<p class="text-xs font-headline text-secondary">Qty: 2 • Saffron Rice, Brinjal Mojo</p>
+</div>
+<div class="font-headline font-bold text-primary">LKR 4,200</div>
+</div>
+<!-- Item 2 -->
+<div class="flex gap-4">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="close-up shot of fresh coconut sambal in a clay pot bowl with red chili garnish and natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMAxvDddg0Jqrmb_f3CFKFnNHhcdB2MzXeMvwU2kcpsRbVvjfJlGrDQYJ_qX-Z-IF7tAi77U-SufLlSAXx9Cf4MepsFTlshmA1rlLkfDJGcpo9mec3GBB7tOGsrcva_wLTEM5SmvFBMBCZozJ_8TMvoRIEz3SR1p_Udqyf_qNOzHd1QJgyhBNPRXVF-UqfaIrStiJHaU2egs3Ar-DvvkWNhuZpTSn8Jr_DNClhQpHOvQiLbnudj0QvmIidBQ8pEhSAfntuFKNnsoU"/>
+</div>
+<div class="flex-grow">
+<h4 class="font-noto-serif font-bold text-on-surface">Spicy Pol Sambal</h4>
+<p class="text-xs font-headline text-secondary">Qty: 1 • Fresh Grated Coconut</p>
+</div>
+<div class="font-headline font-bold text-primary">LKR 450</div>
+</div>
+</div>
+<div class="h-[1px] bg-outline-variant/30"></div>
+<div class="space-y-4 font-headline">
+<div class="flex justify-between text-secondary">
+<span>Subtotal</span>
+<span>LKR 4,650</span>
+</div>
+<div class="flex justify-between text-secondary">
+<span>Delivery Fee</span>
+<span>LKR 350</span>
+</div>
+<div class="flex justify-between text-tertiary font-bold bg-tertiary-fixed/30 p-2 rounded-lg -mx-2">
+<span>Promo Discount</span>
+<span>- LKR 500</span>
+</div>
+<div class="flex justify-between items-baseline pt-4">
+<span class="text-on-surface font-bold text-lg">Total</span>
+<span class="text-primary font-extrabold text-3xl">LKR 4,500</span>
+</div>
+</div>
+<!-- WhatsApp Opt-in -->
+<div class="bg-surface-container-low p-4 rounded-lg flex items-start gap-3 border border-outline-variant/20">
+<div class="pt-1">
+<input checked="" class="rounded-sm border-secondary text-primary focus:ring-primary h-5 w-5" type="checkbox"/>
+</div>
+<div class="space-y-1">
+<label class="font-headline font-bold text-sm text-on-surface flex items-center gap-1">
+                                WhatsApp Updates
+                                <span class="bg-[#25D366] text-white px-1.5 py-0.5 rounded text-[10px] uppercase font-black tracking-tighter">Live</span>
+</label>
+<p class="font-body text-xs text-secondary leading-relaxed">Receive live cooking updates and rider tracking via WhatsApp messages.</p>
+</div>
+</div>
+<!-- Final Action -->
+<div class="space-y-4 pt-2">
+<button class="w-full bg-primary text-on-primary font-headline font-bold py-5 rounded-lg text-lg flex items-center justify-center gap-3 hover:bg-primary-container transition-colors shadow-lg active:scale-[0.98] transition-transform">
+                            Place Order
+                            <span class="material-symbols-outlined">chevron_right</span>
+</button>
+<p class="text-center font-body text-[10px] text-secondary">By placing an order, you agree to Saumya's Culinary Terms &amp; Conditions.</p>
+</div>
+</div>
+<!-- Handcrafted Signature Component -->
+<div class="mt-8 bg-tertiary/10 p-6 rounded-xl relative overflow-hidden flex items-center gap-4">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-tertiary/5 rounded-full blur-2xl"></div>
+<span class="material-symbols-outlined text-tertiary text-3xl" style="font-variation-settings: 'FILL' 1;">eco</span>
+<div>
+<p class="font-noto-serif italic font-bold text-tertiary">Handcrafted with Love</p>
+<p class="font-headline text-xs text-on-tertiary-fixed-variant">All packaging is 100% compostable and plastic-free.</p>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Success Message Ghost Toast -->
+<div class="fixed bottom-12 left-1/2 -translate-x-1/2 bg-surface-container-lowest/80 backdrop-blur-xl border border-outline-variant/20 py-4 px-8 rounded-full shadow-2xl flex items-center gap-4 opacity-0 pointer-events-none translate-y-4">
+<span class="material-symbols-outlined text-tertiary">check_circle</span>
+<span class="font-headline font-bold text-on-surface text-sm">Promo Code "SRILANKA24" Applied!</span>
+</div>
+</body></html>

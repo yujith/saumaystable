@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Table | Saumya's Table</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#002114",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary": "#2c694e",
+                        "on-surface-variant": "#554339",
+                        "tertiary-fixed": "#b1f0ce",
+                        "outline": "#897367",
+                        "primary-fixed-dim": "#ffb68c",
+                        "primary": "#9a4601",
+                        "secondary-container": "#e8e2d8",
+                        "primary-container": "#e07b39",
+                        "surface-container-highest": "#e5e2e1",
+                        "background": "#fcf9f8",
+                        "surface": "#fcf9f8",
+                        "on-primary-container": "#4f2100",
+                        "secondary": "#625e56",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f6f3f2",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#eae7e7",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e5e2e1",
+                        "secondary-fixed-dim": "#ccc6bc",
+                        "on-secondary-container": "#68645c",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#763400",
+                        "on-secondary-fixed": "#1e1b16",
+                        "primary-fixed": "#ffdbc9",
+                        "on-surface": "#1c1b1b",
+                        "on-tertiary-container": "#003623",
+                        "inverse-primary": "#ffb68c",
+                        "tertiary-fixed-dim": "#95d4b3",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#0e5138",
+                        "surface-tint": "#9a4601",
+                        "on-secondary-fixed-variant": "#4a463f",
+                        "on-background": "#1c1b1b",
+                        "secondary-fixed": "#e8e2d8",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f3f0ef",
+                        "outline-variant": "#dcc1b4",
+                        "surface-bright": "#fcf9f8",
+                        "tertiary-container": "#65a284",
+                        "on-primary-fixed": "#321200",
+                        "surface-container": "#f0eded",
+                        "inverse-surface": "#313030",
+                        "surface-dim": "#dcd9d9"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Noto Serif"],
+                        "label": ["Plus Jakarta Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .surface-container-low-bottom-shift { box-shadow: 0 4px 30px -10px rgba(0,0,0,0.05); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-label text-on-surface min-h-screen flex items-center justify-center">
+<!-- Mobile Frame for 390px Width -->
+<div class="relative w-[390px] h-[844px] bg-background shadow-2xl overflow-hidden rounded-[3rem] border-[8px] border-on-surface">
+<!-- TopAppBar (From JSON) -->
+<header class="fixed top-0 w-[374px] z-50 px-6 py-4 bg-[#fcf9f8]/80 backdrop-blur-xl flex justify-between items-center shadow-sm">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#9a4601] cursor-pointer">menu</span>
+<h1 class="font-noto-serif italic font-bold text-[#9a4601]">Saumya's Table</h1>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined text-[#9a4601] cursor-pointer" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+<span class="absolute -top-1 -right-1 bg-tertiary text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">2</span>
+</div>
+</header>
+<!-- Main Content Canvas (Blurred background of a kitchen) -->
+<main class="h-full w-full pt-20 pb-32 px-6 overflow-y-auto no-scrollbar">
+<div class="opacity-40 pointer-events-none absolute inset-0 -z-10">
+<img alt="Artisan kitchen" class="w-full h-full object-cover" data-alt="Blurred background showing a warm artisan kitchen with ceramic pots, wooden spoons, and natural sunlight streaming in through a window" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbXK_HZDJ9Ve7oouByMCn6ASQj657HSDgmwzVeB2v33hPl5Xwd6ojaIl1Au5tDsb5rDBCPIaAAOuqYzovLSI8S20LEMQaMc-TK6UqmROmCQ-mYwNai5m9Wlg-dZdWrF4P8njyVuPc7Boy8bhEEWb8Porp2BRv1zHtE7yu0z7q6BHhQ7AeY6G3WWOHK1foAtZF-ZqHRB4pPgBO-n5wvsqimQ4mh_NoVkjlVgC_mzxc8KpsOxt0GBsgyqk_9SUWMRqwIX5DTMWty0xo"/>
+</div>
+<section class="mt-4">
+<h2 class="font-body text-2xl font-bold text-on-surface mb-2">My Culinary Selections</h2>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-8">Hand-crafted meals, prepared with love in my home kitchen.</p>
+</section>
+</main>
+<!-- CART SLIDE-UP SHEET -->
+<div class="absolute bottom-0 left-0 w-full z-50 bg-surface-container-lowest rounded-t-[2.5rem] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] flex flex-col max-h-[85%] transition-transform duration-500 ease-out">
+<!-- Handle -->
+<div class="w-12 h-1.5 bg-surface-container-highest rounded-full mx-auto my-4"></div>
+<!-- Delivery Week Banner (Amber State Example: Next Week) -->
+<div class="mx-6 mb-6 p-4 rounded-xl bg-orange-50 flex items-start gap-3 border border-orange-100">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">calendar_clock</span>
+<div>
+<p class="text-sm font-bold text-on-primary-container">Next Week Delivery</p>
+<p class="text-xs text-on-surface-variant">Order cut-off for this week has passed. Your delivery will be scheduled for next weekend.</p>
+</div>
+</div>
+<!-- Scrollable Item List -->
+<div class="px-6 space-y-6 overflow-y-auto no-scrollbar pb-6">
+<!-- Item 1: Lamprais -->
+<div class="flex gap-4">
+<div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0">
+<img alt="Lamprais" class="w-full h-full object-cover" data-alt="Traditional Sri Lankan Lamprais wrapped in a banana leaf, showing aromatic rice, meat curry, and seeni sambol" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMLiauscCiQ3ds27HuAy0EHjczOwNpV22GDZmZk9UuCHJ1fbgC-rl1HX8ScairdwUt4bOAlZr1haiD-4hu84ERKeDe5zwVn7XJevRdKmSNebBy3w9T4xg5VIZxVVPivz_H7BUnhSpGEEIZ5coG_dGix9AHWr6EonrAWbC7BNUV2jPgd6ISlqTMizWvP0GXCv1g6J-fkb00u-C7GeLJneCfRdgAkeX3N6b--rU4LwjqAMjubN7WnbcYZwRsgJorcb2D64mYRBMpJ9w"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-body font-bold text-on-surface">Authentic Lamprais</h3>
+<p class="text-xs text-on-surface-variant">Traditional Banana Leaf Wrap</p>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="font-bold text-primary">LKR 2,450</span>
+<div class="flex items-center bg-surface-container rounded-full px-2 py-1 gap-3">
+<button class="w-6 h-6 flex items-center justify-center text-primary-fixed-dim hover:text-primary"><span class="material-symbols-outlined text-lg">remove</span></button>
+<span class="text-sm font-bold w-4 text-center">1</span>
+<button class="w-6 h-6 flex items-center justify-center text-primary-fixed-dim hover:text-primary"><span class="material-symbols-outlined text-lg">add</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2: Pol Sambol -->
+<div class="flex gap-4">
+<div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0">
+<img alt="Pol Sambol" class="w-full h-full object-cover" data-alt="Freshly grated coconut Pol Sambol with red chili flakes and lime served in a rustic clay bowl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAg_Z3B_F6nA6ps7AvewCstG6eHXdqNQUMsrMoS-0bS7OFkAW5heLc3-QTYFN4y--R_Rv7p5h2PVjDTuKU8Jyh3fntnyDATnE7tDNU0Wj9YdtiGXhjS13XdS8xFryXcV4PKzk3nB2pZclGU6OVGdiPIw3bXv100z1Zph2c7OR17vEXrcAXP8OK9SLFLmGea_gDvN8MKDP5M8Rzxt0NfE8i-EhpmSg80b-rVKg2u8MS0Cqw-BdqoFmlUimsFe0OLYvGW7_yxHr-M1FY"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-body font-bold text-on-surface">Pol Sambol &amp; Red Rice</h3>
+<p class="text-xs text-on-surface-variant">Home-grown Heirloom Rice</p>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="font-bold text-primary">LKR 1,800</span>
+<div class="flex items-center bg-surface-container rounded-full px-2 py-1 gap-3">
+<button class="w-6 h-6 flex items-center justify-center text-primary-fixed-dim hover:text-primary"><span class="material-symbols-outlined text-lg">remove</span></button>
+<span class="text-sm font-bold w-4 text-center">1</span>
+<button class="w-6 h-6 flex items-center justify-center text-primary-fixed-dim hover:text-primary"><span class="material-symbols-outlined text-lg">add</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Delivery Preference -->
+<div class="pt-4 border-t border-surface-container-high">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3 block">Preferred Delivery Day
+<div class="grid grid-cols-2 gap-3 bg-surface-container p-1 rounded-full">
+<button class="py-2.5 rounded-full text-sm font-bold bg-surface-container-lowest text-primary shadow-sm">Saturday</button>
+<button class="py-2.5 rounded-full text-sm font-bold text-on-surface-variant">Sunday</button>
+</div>
+</label></div>
+</div>
+<!-- Footer Summary -->
+<div class="p-6 bg-surface-container-low rounded-t-[2rem]">
+<div class="space-y-2 mb-6">
+<div class="flex justify-between text-sm text-on-surface-variant">
+<span>Subtotal</span>
+<span>LKR 4,250.00</span>
+</div>
+<div class="flex justify-between text-sm text-on-surface-variant">
+<span>Delivery Fee</span>
+<span>LKR 450.00</span>
+</div>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/20">
+<span class="font-bold text-lg">Total Amount</span>
+<span class="font-bold text-xl text-primary font-headline">LKR 4,700.00</span>
+</div>
+</div>
+<!-- CTA Button -->
+<button class="w-full bg-primary text-on-primary py-5 rounded-full font-bold text-base shadow-lg shadow-primary/20 active:scale-95 transition-transform flex items-center justify-center gap-2">
+                    Proceed to Checkout
+                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- BottomNavBar (Suppressed for focused task, but present in JSON - using placeholder if needed elsewhere) -->
+<nav class="hidden">
+<!-- BottomNavBar visibility is suppressed as per the "Task-Focused" rule for Checkout/Cart flows -->
+</nav>
+</div>
+</body></html>

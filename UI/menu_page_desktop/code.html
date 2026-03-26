@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Menu | Saumya's Table</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f3f0ef",
+                        "on-tertiary-container": "#003623",
+                        "error": "#ba1a1a",
+                        "primary": "#9a4601",
+                        "on-secondary-fixed": "#1e1b16",
+                        "tertiary-fixed": "#b1f0ce",
+                        "inverse-primary": "#ffb68c",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#ccc6bc",
+                        "on-surface": "#1c1b1b",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f6f3f2",
+                        "secondary-fixed": "#e8e2d8",
+                        "tertiary": "#2c694e",
+                        "surface-variant": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#4a463f",
+                        "background": "#fcf9f8",
+                        "surface-container-highest": "#e5e2e1",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#e07b39",
+                        "surface-container-high": "#eae7e7",
+                        "secondary": "#625e56",
+                        "primary-fixed-dim": "#ffb68c",
+                        "primary-fixed": "#ffdbc9",
+                        "on-primary-fixed": "#321200",
+                        "outline": "#897367",
+                        "on-tertiary-fixed": "#002114",
+                        "surface-tint": "#9a4601",
+                        "outline-variant": "#dcc1b4",
+                        "tertiary-container": "#65a284",
+                        "surface-dim": "#dcd9d9",
+                        "surface-bright": "#fcf9f8",
+                        "on-secondary-container": "#68645c",
+                        "on-tertiary-fixed-variant": "#0e5138",
+                        "on-primary-container": "#4f2100",
+                        "on-surface-variant": "#554339",
+                        "on-primary-fixed-variant": "#763400",
+                        "inverse-surface": "#313030",
+                        "surface": "#fcf9f8",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#f0eded",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#95d4b3",
+                        "secondary-container": "#e8e2d8",
+                        "on-background": "#1c1b1b"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Noto Serif"],
+                        "label": ["Plus Jakarta Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .surface-container-low-bottom-shift {
+            box-shadow: 0 4px 30px -10px rgba(0,0,0,0.05);
+        }
+        .no-border { border: none !important; }
+        .glass-timer {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(40px);
+        }
+        .asymmetric-bleed {
+            margin-right: -5vw;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-label selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 px-6 py-4 bg-[#fcf9f8]/80 dark:bg-[#1c1b1b]/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[#9a4601] dark:text-[#e07b39]">menu</span>
+</button>
+<h1 class="font-noto-serif italic font-bold text-[#9a4601] dark:text-[#e07b39] text-2xl tracking-tight">Saumya's Table</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-plus-jakarta-sans font-bold text-lg text-[#9a4601] dark:text-[#e07b39]" href="#">Menu</a>
+<a class="font-plus-jakarta-sans font-bold text-lg text-[#1c1b1b] dark:text-[#fcf9f8] hover:opacity-80 transition-opacity" href="#">Schedule</a>
+<a class="font-plus-jakarta-sans font-bold text-lg text-[#1c1b1b] dark:text-[#fcf9f8] hover:opacity-80 transition-opacity" href="#">The Story</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform relative">
+<span class="material-symbols-outlined text-[#9a4601] dark:text-[#e07b39]">shopping_cart</span>
+<span class="absolute -top-1 -right-1 bg-tertiary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">2</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 max-w-screen-xl mx-auto px-6">
+<!-- Live Countdown Banner -->
+<section class="mb-16">
+<div class="relative overflow-hidden rounded-xl bg-primary-container/10 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="z-10 max-w-xl">
+<span class="inline-block px-4 py-1 rounded-full bg-tertiary/10 text-tertiary text-sm font-bold mb-4 uppercase tracking-widest">Live Kitchen Status</span>
+<h2 class="font-body text-3xl md:text-4xl text-on-surface mb-4">The afternoon pots are simmering...</h2>
+<p class="font-body text-lg text-on-surface-variant opacity-80 leading-relaxed">Place your order now to catch the final dispatch of the day. Freshly prepared, aromatic, and ready to travel.</p>
+</div>
+<div class="z-10 glass-timer px-8 py-6 rounded-lg border border-white/20 shadow-xl flex flex-col items-center min-w-[240px]">
+<span class="text-xs font-bold uppercase tracking-tighter text-primary mb-2">Ordering closes in</span>
+<div class="flex items-baseline gap-2">
+<span class="text-5xl font-black text-primary tracking-tighter">42</span>
+<span class="text-xl font-bold text-primary">:</span>
+<span class="text-5xl font-black text-primary tracking-tighter">18</span>
+</div>
+<span class="text-[10px] font-medium text-on-surface-variant mt-2">MINUTES &amp; SECONDS</span>
+</div>
+</div>
+</section>
+<!-- Sticky Category Bar -->
+<nav class="sticky top-24 z-40 bg-background/95 backdrop-blur-md py-6 mb-12">
+<div class="flex items-center gap-4 overflow-x-auto pb-2 no-scrollbar">
+<button class="px-8 py-3 rounded-full bg-primary text-on-primary font-bold whitespace-nowrap transition-all shadow-md">All Delicacies</button>
+<button class="px-8 py-3 rounded-full bg-secondary-container text-on-secondary-container font-semibold whitespace-nowrap hover:bg-surface-container-high transition-all">Rice &amp; Curries</button>
+<button class="px-8 py-3 rounded-full bg-secondary-container text-on-secondary-container font-semibold whitespace-nowrap hover:bg-surface-container-high transition-all">Small Plates</button>
+<button class="px-8 py-3 rounded-full bg-secondary-container text-on-secondary-container font-semibold whitespace-nowrap hover:bg-surface-container-high transition-all">Sambols &amp; Pickles</button>
+<button class="px-8 py-3 rounded-full bg-secondary-container text-on-secondary-container font-semibold whitespace-nowrap hover:bg-surface-container-high transition-all">Sweet Endings</button>
+<button class="px-8 py-3 rounded-full bg-secondary-container text-on-secondary-container font-semibold whitespace-nowrap hover:bg-surface-container-high transition-all">Beverages</button>
+</div>
+</nav>
+<!-- Menu Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+<!-- Item 1: Lamprais -->
+<article class="group">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-6 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Traditional Sri Lankan Lamprais wrapped in a banana leaf, steam rising, rich aromatic spices visible, warm top-down lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIN3sSJg8Slxzj9JXPjf8w-ah7dp1ogOiqlMO9Z7zNULpMfmo3lcjI2XFVJmflnHokZam944rsjam4w1-9WBBOXpNNV7o7KLdquTywne58XfSJE1ZOnoeCC1uaNNRBkyCR6H2QSZnzz_Ir6R9nrsX6hYeY3lMp6HksIEOR0fiP1rZrABZG6I_MyYqPHEkE-qaoPWBXRl1CXNJp7qwqJdaF0i2KdIQF3dqQocVv9pTbw37LNXiKfP3PIq0KzjvuF_i0mv5LBMxVl9k"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-surface-container-lowest/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-on-surface">Signature</span>
+</div>
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-body text-2xl text-on-surface group-hover:text-primary transition-colors">Traditional Lamprais</h3>
+<span class="font-headline font-bold text-lg text-primary">LKR 2,450</span>
+</div>
+<p class="font-body text-on-surface-variant text-sm mb-4 line-clamp-2 leading-relaxed">Twice-cooked rice, three-meat curry, blachan, seeni sambol, and a deep-fried ash plantain, all slow-steamed in a charred banana leaf.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="flex items-center gap-1 text-[10px] font-bold text-tertiary uppercase"><span class="material-symbols-outlined text-sm">eco</span> Contains Meat</span>
+<span class="flex items-center gap-1 text-[10px] font-bold text-primary uppercase"><span class="material-symbols-outlined text-sm">local_fire_department</span> Spicy</span>
+</div>
+<button class="w-full py-4 rounded-lg bg-primary text-on-primary font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+                    Add to Cart
+                </button>
+</article>
+<!-- Item 2: Cashew Curry -->
+<article class="group">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-6 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Creamy Sri Lankan raw cashew nut curry in a ceramic bowl with curry leaves and mustard seeds, golden coconut milk base" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBdF3zmj9sADRuLSzYcr-7R8LoghvBqiknmuGC8j0y7w4aJi7RVHpr4ARQbRy3Hyiu5zgbNOVr_A9p2CW5myU2yC7t9OWHT3_dZ8FQcxnINJo-jAAjoDdYDZEQuWWklrIt3-IjG3otCOuxNXKLd3qKjzzNUj2u8J7x7OyNsGY1WP7s4iV5KnAikpuQ2fju56K6CDEUflQ2eOFxISu0dQ2RGkcKc-fXV77Y8i5tMPZ7eGpsGa9Dbii8_LZwCYp3PMycd88zzc0HbQM"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-tertiary text-on-tertiary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Vegan</span>
+</div>
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-body text-2xl text-on-surface group-hover:text-primary transition-colors">Creamy Kaju Maluwa</h3>
+<span class="font-headline font-bold text-lg text-primary">LKR 1,850</span>
+</div>
+<p class="font-body text-on-surface-variant text-sm mb-4 line-clamp-2 leading-relaxed">Raw cashews simmered in rich coconut milk with green chilies, turmeric, and aromatic Pandan leaves.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="flex items-center gap-1 text-[10px] font-bold text-tertiary uppercase"><span class="material-symbols-outlined text-sm">eco</span> Plant-Based</span>
+<span class="flex items-center gap-1 text-[10px] font-bold text-on-surface-variant opacity-60 uppercase"><span class="material-symbols-outlined text-sm">info</span> Nut Allergy Warning</span>
+</div>
+<button class="w-full py-4 rounded-lg bg-primary text-on-primary font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+                    Add to Cart
+                </button>
+</article>
+<!-- Item 3: SOLD OUT - Jaffna Crab Curry -->
+<article class="group opacity-70 grayscale-[0.5]">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-6 bg-surface-container">
+<div class="absolute inset-0 z-10 bg-on-surface/40 flex items-center justify-center backdrop-blur-[2px]">
+<span class="bg-surface-container-lowest text-on-surface px-6 py-2 rounded-full font-bold uppercase tracking-[0.2em] shadow-xl">Sold Out</span>
+</div>
+<img class="w-full h-full object-cover" data-alt="Spicy red Jaffna crab curry with drumstick leaves and roasted curry powder in a clay pot, rustic kitchen setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8FBoa5h-puok37qsjQEu2zPqUM_JHdH1q5I75wQSWjFQsUNMqjewfJUJZN0fZumykDasEJX313n4zyQn9Qh6HnxbxqaWR65_AY4GMCWIyX8D6T_GwkNtfR2jQGOL4nMA4Pvs7nMWPADpABxZKb0642QUDZzRe6e4Tlr4szu2KkQuWb-LhpnkGCcT8wGIsmrtsqKxVLQU-SHBHUpBwa51v5ia9THF6rPKACHKTgGSnzzHiHpxea_c4HioZtLuUkurmqVBf5u_-puY"/>
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-body text-2xl text-on-surface">Jaffna Crab Curry</h3>
+<span class="font-headline font-bold text-lg text-on-surface-variant/50">LKR 3,900</span>
+</div>
+<p class="font-body text-on-surface-variant text-sm mb-4 line-clamp-2 leading-relaxed">Lagoon crabs cooked with roasted curry powder, tamarind, and fresh moringa leaves from our garden.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="flex items-center gap-1 text-[10px] font-bold text-primary uppercase"><span class="material-symbols-outlined text-sm">local_fire_department</span> Extra Hot</span>
+</div>
+<button class="w-full py-4 rounded-lg bg-surface-container-high text-on-surface-variant/40 font-bold cursor-not-allowed" disabled="">
+                    Restocking Soon
+                </button>
+</article>
+<!-- Item 4: Pol Sambol & Hoppers -->
+<article class="group">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-6 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Crispy edge egg hopper with fresh coconut sambol on the side, served on a woven mat, soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqj6JGEk5x3Y3ZBeacG_sZiVbIAWBrpwpLjBqu0n1iZHSeSWKCohmQXmS4yqpH5jcUhgd_OYhuE5cvVGAbea2rfvOyuETaC786Q52EOkkfNgwbX-_c1n1rCptyQVFo0XmXQRIlpGYn7uRfEeZtdPHXr5yj34iQrQGNsH2_rI7bKxsAJALIoG_TVd9d4sJbuCO_7AwP6FgCy5ssPbNqXXiamY-e-7pu71E7DMa5cOx-rW03K25XEW5Bh2Le6fSo-RVvANGkAimWdps"/>
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-body text-2xl text-on-surface group-hover:text-primary transition-colors">Egg Hopper Basket</h3>
+<span class="font-headline font-bold text-lg text-primary">LKR 1,200</span>
+</div>
+<p class="font-body text-on-surface-variant text-sm mb-4 line-clamp-2 leading-relaxed">Four crispy-edged appas including one center-set egg hopper, served with a fiery Lunu Miris.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="flex items-center gap-1 text-[10px] font-bold text-tertiary uppercase"><span class="material-symbols-outlined text-sm">breakfast_dining</span> Breakfast Favorite</span>
+</div>
+<button class="w-full py-4 rounded-lg bg-primary text-on-primary font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+                    Add to Cart
+                </button>
+</article>
+<!-- Item 5: Beetroot Curry -->
+<article class="group">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-6 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Vibrant purple beetroot curry with coconut milk and green chili slivers in a white bowl, artistic culinary presentation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBw_GCmR9-MeTytoi2beAclmZu3uNYmOQZivEy2w9WZclwLSR6am12fRGd73e1uO3LoLRB4MJP38tb-Pse7IyS3SdoXGMw6j2AucAr0WRvrQ6PagyxFdc3t2CQaYzJdFB_knmLc0y1WGJ3kYPtRK6UMVBr0y-s96u_r1keJ5sawbBwb_YUlxMY8Ljmlp4TozKmoBFplxsLQAYLVr5s10wRxYm3UMn-0iDuEf1_qDCuvQEJi_TT7-x5wLowHZ5310RXJSTVxwb1llS0"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-tertiary text-on-tertiary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Vegan</span>
+</div>
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-body text-2xl text-on-surface group-hover:text-primary transition-colors">Garden Beetroot Temper</h3>
+<span class="font-headline font-bold text-lg text-primary">LKR 950</span>
+</div>
+<p class="font-body text-on-surface-variant text-sm mb-4 line-clamp-2 leading-relaxed">Locally grown beets sautéed with mustard seeds, onions, and finished with thick coconut cream.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="flex items-center gap-1 text-[10px] font-bold text-tertiary uppercase"><span class="material-symbols-outlined text-sm">eco</span> Locally Sourced</span>
+</div>
+<button class="w-full py-4 rounded-lg bg-primary text-on-primary font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+                    Add to Cart
+                </button>
+</article>
+<!-- Item 6: Watalappam -->
+<article class="group">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-6 bg-surface-container">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Traditional Sri Lankan Watalappam pudding topped with toasted cashews and cardamom, silky texture, dark palm jaggery color" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWRUH9kSblpjpNLaF5ZU99gdIJb6I88VZkGgd0W-ataT6NekmCQpwPQG7FuC-0jicC1QynEmglJbDji1z2H0YvQnHSpXCxnKANAF-fhR3omNWisESl5yYW3ehCS2N9OQxAOmBmG_PR5nFLT2JYQTkOrdffUpPXq9jA021zNetkRKMlPD9VbluwJufwHqmm5I8w2Ka-XVEl0ainDnM8ScD_AMIiTOBjJRMdj2KIlbif-09DnWPUdscjaPqriBW8qE7Y81EQT6KYAd8"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Must Try</span>
+</div>
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-body text-2xl text-on-surface group-hover:text-primary transition-colors">Jaggery Watalappam</h3>
+<span class="font-headline font-bold text-lg text-primary">LKR 850</span>
+</div>
+<p class="font-body text-on-surface-variant text-sm mb-4 line-clamp-2 leading-relaxed">Steam-baked coconut custard sweetened with dark Kitul jaggery and spiced with fresh cardamom and nutmeg.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="flex items-center gap-1 text-[10px] font-bold text-on-surface-variant opacity-60 uppercase"><span class="material-symbols-outlined text-sm">star</span> Chef's Secret Recipe</span>
+</div>
+<button class="w-full py-4 rounded-lg bg-primary text-on-primary font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+                    Add to Cart
+                </button>
+</article>
+</div>
+<!-- Pagination or "Show More" -->
+<div class="mt-20 flex flex-col items-center">
+<p class="font-body text-on-surface-variant italic mb-6">Showing 6 of 24 seasonal delights</p>
+<button class="px-12 py-4 rounded-full border-2 border-outline-variant text-primary font-bold hover:bg-surface-container transition-all">
+                Load More from the Kitchen
+            </button>
+</div>
+</main>
+<!-- Navigation Drawer (Desktop Hidden by Logic, but part of UI Shell) -->
+<aside class="fixed inset-y-0 left-0 z-[60] w-80 p-6 bg-[#fcf9f8] dark:bg-[#1c1b1b] rounded-r-[2rem] h-full shadow-2xl dark:shadow-none -translate-x-full transition-transform">
+<div class="flex flex-col h-full">
+<div class="mb-12 left_align">
+<div class="w-16 h-16 rounded-full overflow-hidden mb-4 bg-surface-container">
+<img alt="Saumya's Signature" class="w-full h-full object-cover" data-alt="Portrait of a friendly female chef in a clean professional apron with a warm smile, soft kitchen background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk2_kl0n_oIdS04sLS3-31M_yX5nS3ugsDZijrAZKNBYdj6PKuY7w-uyr3qr6CAl2KMvibj5eGpU_UMsCDYQARCXr9Y2BzSe0v022AmAcvtht-Oe0OVlUKxpvsurb0OM0ZSci90LttnwzloiqZ7a9IRJQ-UzbrMxaTIVSUYDNYbg6JqikLUyywaV8XFk2e38Gw_y_8AfQkZJ4g7ngI8GIq5jfny6pUNyY2Rw8ai4F0TL01GEkpHtY2onTRJQdae4qYdEHOODbL2C8"/>
+</div>
+<h2 class="font-plus-jakarta-sans font-black text-[#9a4601] text-xl">Saumya's Table</h2>
+<p class="font-noto-serif text-sm opacity-60">The Culinary Letter</p>
+</div>
+<nav class="space-y-2 flex-grow">
+<a class="flex items-center gap-4 bg-[#e8e2d8] dark:bg-[#2c694e]/20 text-[#2c694e] font-bold rounded-full px-4 py-3 translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-noto-serif">Cooking Schedule</span>
+</a>
+<a class="flex items-center gap-4 text-[#1c1b1b] dark:text-gray-400 px-4 py-3 hover:bg-[#f0eded] dark:hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">face</span>
+<span class="font-noto-serif">About the Chef</span>
+</a>
+<a class="flex items-center gap-4 text-[#1c1b1b] dark:text-gray-400 px-4 py-3 hover:bg-[#f0eded] dark:hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">eco</span>
+<span class="font-noto-serif">Sustainability</span>
+</a>
+<a class="flex items-center gap-4 text-[#1c1b1b] dark:text-gray-400 px-4 py-3 hover:bg-[#f0eded] dark:hover:bg-white/5 transition-all" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-noto-serif">Support</span>
+</a>
+</nav>
+</div>
+</aside>
+<!-- Footer -->
+<footer class="bg-surface-container pt-20 pb-12">
+<div class="max-w-screen-xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="col-span-1 md:col-span-2">
+<h2 class="font-noto-serif italic font-bold text-[#9a4601] text-3xl mb-6">Saumya's Table</h2>
+<p class="font-body text-on-surface-variant max-w-sm leading-relaxed mb-8 text-lg">Bringing the authentic spices and slow-cooked traditions of a Sri Lankan kitchen directly to your doorstep. Every meal is a personal letter from our home to yours.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-lg">public</span></a>
+<a class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-lg">mail</span></a>
+</div>
+</div>
+<div>
+<h4 class="font-headline font-bold text-on-surface mb-6 uppercase tracking-widest text-sm">Discover</h4>
+<ul class="space-y-4 font-body text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Today's Specials</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Gift Cards</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Bulk Orders</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">The Pantry</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-headline font-bold text-on-surface mb-6 uppercase tracking-widest text-sm">The Table</h4>
+<ul class="space-y-4 font-body text-on-surface-variant">
+<li><a class="hover:text-primary transition-colors" href="#">Our Farmers</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Sustainability</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Cooking Blog</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-screen-xl mx-auto px-6 mt-20 pt-8 border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant opacity-60">© 2024 Saumya's Table. Handcrafted in Colombo.</p>
+<div class="flex items-center gap-8 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+<span>Visa / Master / Amex</span>
+<span>Island-wide Delivery</span>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-[#ffffff]/90 dark:bg-[#1c1b1b]/90 backdrop-blur-2xl rounded-t-[2.5rem] shadow-[0_-4px_20px_rgba(28,27,27,0.05)] flex justify-around items-center px-4 pt-3 pb-8">
+<a class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-[#e07b39] transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-plus-jakarta-sans text-[10px] font-semibold tracking-wide">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#9a4601] dark:text-[#e07b39] font-bold scale-110 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
+<span class="font-plus-jakarta-sans text-[10px] font-semibold tracking-wide">Menu</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-[#e07b39] transition-colors" href="#">
+<span class="material-symbols-outlined">shopping_basket</span>
+<span class="font-plus-jakarta-sans text-[10px] font-semibold tracking-wide">Cart</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-[#e07b39] transition-colors" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-plus-jakarta-sans text-[10px] font-semibold tracking-wide">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-[#e07b39] transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-plus-jakarta-sans text-[10px] font-semibold tracking-wide">Profile</span>
+</a>
+</nav>
+</body></html>

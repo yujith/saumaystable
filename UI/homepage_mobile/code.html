@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=390, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed": "#002114",
+              "surface-container-lowest": "#ffffff",
+              "tertiary": "#2c694e",
+              "on-surface-variant": "#554339",
+              "tertiary-fixed": "#b1f0ce",
+              "outline": "#897367",
+              "primary-fixed-dim": "#ffb68c",
+              "primary": "#9a4601",
+              "secondary-container": "#e8e2d8",
+              "primary-container": "#e07b39",
+              "surface-container-highest": "#e5e2e1",
+              "background": "#fcf9f8",
+              "surface": "#fcf9f8",
+              "on-primary-container": "#4f2100",
+              "secondary": "#625e56",
+              "on-error": "#ffffff",
+              "surface-container-low": "#f6f3f2",
+              "on-tertiary": "#ffffff",
+              "surface-container-high": "#eae7e7",
+              "on-secondary": "#ffffff",
+              "on-error-container": "#93000a",
+              "surface-variant": "#e5e2e1",
+              "secondary-fixed-dim": "#ccc6bc",
+              "on-secondary-container": "#68645c",
+              "error-container": "#ffdad6",
+              "on-primary-fixed-variant": "#763400",
+              "on-secondary-fixed": "#1e1b16",
+              "primary-fixed": "#ffdbc9",
+              "on-surface": "#1c1b1b",
+              "on-tertiary-container": "#003623",
+              "inverse-primary": "#ffb68c",
+              "tertiary-fixed-dim": "#95d4b3",
+              "on-primary": "#ffffff",
+              "on-tertiary-fixed-variant": "#0e5138",
+              "surface-tint": "#9a4601",
+              "on-secondary-fixed-variant": "#4a463f",
+              "on-background": "#1c1b1b",
+              "secondary-fixed": "#e8e2d8",
+              "error": "#ba1a1a",
+              "inverse-on-surface": "#f3f0ef",
+              "outline-variant": "#dcc1b4",
+              "surface-bright": "#fcf9f8",
+              "tertiary-container": "#65a284",
+              "on-primary-fixed": "#321200",
+              "surface-container": "#f0eded",
+              "inverse-surface": "#313030",
+              "surface-dim": "#dcd9d9"
+            },
+            fontFamily: {
+              "plus-jakarta-sans": ["Plus Jakarta Sans"],
+              "noto-serif": ["Noto Serif"],
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Noto Serif"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .surface-container-low-bottom-shift {
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+      }
+      .surface-container-low-top-shift {
+        box-shadow: 0 -10px 30px -10px rgba(0,0,0,0.05);
+      }
+      .glass-timer {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-plus-jakarta-sans antialiased pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 px-6 py-4 bg-[#fcf9f8]/80 backdrop-blur-xl flex justify-between items-center max-w-screen-xl mx-auto shadow-sm">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#9a4601] hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform cursor-pointer">menu</span>
+<span class="font-noto-serif italic font-bold text-[#9a4601] text-lg">Saumya's Table</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#9a4601] hover:opacity-80 transition-opacity scale-95 active:scale-90 transition-transform cursor-pointer">shopping_cart</span>
+</div>
+</header>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative px-6 py-8 overflow-hidden">
+<div class="relative z-10 space-y-4">
+<h1 class="font-noto-serif text-4xl font-bold leading-tight tracking-tight text-on-surface">
+                    Real food. <br/>
+<span class="text-primary italic">Real care.</span> <br/>
+                    Every week.
+                </h1>
+<p class="font-noto-serif text-lg text-on-surface-variant max-w-[280px]">
+                    Authentic Sri Lankan flavors, slow-cooked in my home kitchen for your family.
+                </p>
+<button class="bg-primary text-on-primary px-8 py-4 rounded-lg font-bold text-sm tracking-wide shadow-lg shadow-primary/20 flex items-center gap-2 group">
+                    View This Week's Menu
+                    <span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</div>
+<div class="mt-8 relative h-80 w-full rounded-xl overflow-hidden shadow-2xl">
+<img alt="Saumya cooking" class="w-full h-full object-cover" data-alt="A warm, atmospheric photo of a South Asian woman smiling while cooking in a sunlit kitchen with steam rising from a clay pot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcYZdYHoh37R_npD-IMEJ3QPMjASV0c7m2RHc7UpevAHQauXQswdZ41pRIcGDchuSkUNfaHKHBgvLubg_g4qVRdEyfZiIDNcJeteoM_UcEGHgdJzMGOL2Rgk5_pSuoM3ycaDYgJKZNO3Qm5bFGrJNpJ4MfzFj84lJVynj2AM-j-D3UYkP-BubCt69q_zDD8zq12l3nwOp9sJZBd0XwaFRFhlT9hzQ_RdcX8e2H2xtzhap4kz78yOh5Znje2NefjhTKSnWryOYxQ10"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/40 to-transparent"></div>
+</div>
+<!-- Signature Countdown Timer -->
+<div class="absolute top-72 right-4 z-20">
+<div class="glass-timer px-6 py-3 rounded-lg border border-white/40 shadow-xl flex flex-col items-center">
+<span class="text-[10px] font-bold text-tertiary uppercase tracking-widest mb-1">Time to Order</span>
+<div class="flex items-baseline gap-1">
+<span class="text-2xl font-black text-tertiary font-headline leading-none">03:14:22</span>
+</div>
+<div class="mt-2 w-full h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-3/4"></div>
+</div>
+<p class="text-[9px] text-tertiary font-semibold mt-1">Closes Thursday 7PM</p>
+</div>
+</div>
+</section>
+<!-- How It Works -->
+<section class="px-6 py-12 bg-surface-container-low rounded-t-[3rem] mt-4">
+<h2 class="font-headline text-2xl font-extrabold text-on-surface mb-8 px-2">How It Works</h2>
+<div class="space-y-10">
+<div class="flex gap-6 items-start">
+<div class="flex-shrink-0 w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center font-black text-primary text-xl">1</div>
+<div>
+<h3 class="font-headline font-bold text-lg mb-1">Discover</h3>
+<p class="font-body text-on-surface-variant leading-relaxed">Each week, I curate a small, seasonal menu of heirloom Sri Lankan recipes.</p>
+</div>
+</div>
+<div class="flex gap-6 items-start">
+<div class="flex-shrink-0 w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center font-black text-primary text-xl">2</div>
+<div>
+<h3 class="font-headline font-bold text-lg mb-1">Pre-order</h3>
+<p class="font-body text-on-surface-variant leading-relaxed">Orders close Thursday 7PM so I can source the freshest local ingredients.</p>
+</div>
+</div>
+<div class="flex gap-6 items-start">
+<div class="flex-shrink-0 w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center font-black text-primary text-xl">3</div>
+<div>
+<h3 class="font-headline font-bold text-lg mb-1">Nourish</h3>
+<p class="font-body text-on-surface-variant leading-relaxed">Meals are delivered Saturday afternoon, ready to warm and serve with love.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Meals -->
+<section class="py-12 bg-surface">
+<div class="px-6 flex justify-between items-end mb-6">
+<h2 class="font-headline text-2xl font-extrabold text-on-surface">This Week's Specials</h2>
+<span class="text-primary font-bold text-sm cursor-pointer">See all</span>
+</div>
+<div class="flex overflow-x-auto gap-6 px-6 no-scrollbar pb-4">
+<!-- Meal Card 1 -->
+<div class="flex-shrink-0 w-[280px]">
+<div class="relative h-[340px] rounded-lg overflow-hidden mb-4 group">
+<img alt="Chicken Curry" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Vibrant Sri Lankan chicken curry in a rustic clay bowl surrounded by fresh curry leaves and coconut pieces" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf5wCghIjIjRYjQG6IeZ6P6SfdC-NL-dgXSGQNZwYFP-J0KaN6xo3js000cPTMK9TW38nu8PcjVEC410OwQbFd9LV8nrIe0NSRpr2zQbQ4-in_zwsg3y0iF1WDj2dQdpF4yPC_RZ0BHmcxOsyqJTYIZNNzScc1qEpt4Qc-GnqgXXMPGreQ3BsQuqLUDrIsQIwljXBErIfzV8WT86bUBc_fNBxoNbteZlz-ZXw6dyLftFR2dMSp297bWl7YCCym4zg6ctEV96hzdFw"/>
+<div class="absolute top-4 left-4 bg-tertiary text-on-tertiary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Highly Rated</div>
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-on-surface/80 to-transparent">
+<h3 class="font-noto-serif text-xl font-bold text-white mb-1">Amma's Jaffna Curry</h3>
+<p class="text-white/80 text-xs font-medium">Slow-cooked with 14 roasted spices</p>
+</div>
+</div>
+<div class="flex justify-between items-center px-1">
+<span class="font-bold text-lg text-on-surface">$24.00</span>
+<button class="bg-secondary-container text-primary p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Meal Card 2 -->
+<div class="flex-shrink-0 w-[280px]">
+<div class="relative h-[340px] rounded-lg overflow-hidden mb-4 group">
+<img alt="Vegetable Platter" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Traditional Sri Lankan vegetable platter with colorful beet curry, dhal, and gotu kola sambol on a banana leaf" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwdej4L9CYHr4_J-ExG96I9zJ_NMgTT7En13R3ReHHyYOU-BJFuoRMg6tIug16B3mWMnf2sMnteHaf1KpFnfA9gzbYO1RTMQ4RUBQ-y6HKDc7AQ8Q_hlgUqgNzgHmRiQEvDS1NhAUsvMtft_NJLez3hOKnVJ-Yl0ZujzM0xRl6uuhPFXBvI9oZAqBoR2FJ5EIsmF_OQ9SJsWUCnORlvg3kJlzQ6itdzs3Ydu7oOH0uLgtFHaXU-XXzsaFX_Tw4GvFgCjD2wNDXSJw"/>
+<div class="absolute top-4 left-4 bg-primary-container text-on-primary-container text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Vegetarian</div>
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-on-surface/80 to-transparent">
+<h3 class="font-noto-serif text-xl font-bold text-white mb-1">Lumbini Harvest Bowl</h3>
+<p class="text-white/80 text-xs font-medium">Beetroot, Dhal &amp; Tempered Greens</p>
+</div>
+</div>
+<div class="flex justify-between items-center px-1">
+<span class="font-bold text-lg text-on-surface">$21.00</span>
+<button class="bg-secondary-container text-primary p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonial -->
+<section class="px-6 py-12">
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-sm border border-outline-variant/10 relative overflow-hidden">
+<span class="material-symbols-outlined text-primary/10 text-8xl absolute -top-4 -right-4 italic">format_quote</span>
+<p class="font-noto-serif text-xl italic text-on-surface-variant relative z-10 leading-relaxed">
+                    "Saumya's dhal curry tastes exactly like the one my grandmother used to make in Galle. It's more than a meal, it's a memory."
+                </p>
+<div class="mt-8 flex items-center gap-4 relative z-10">
+<div class="w-12 h-12 rounded-full bg-secondary-container overflow-hidden">
+<img alt="Customer profile" class="w-full h-full object-cover" data-alt="A friendly looking middle-aged man with short hair smiling warmly at the camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3UPy9obkuXvLr0Nvs57UgCnphXvAbQARtzL31NWpq4JGnZZLHnV9t-U2IVCnPNkPkh1wxbKexFgbM9lE6Fv8911BNR1CfOa3esYjBKxxh2QCh_kuWlByfDwqFlVdBsRNNUtK-lI8yTd_Syra7El4Hp6kAyoFi5-ipKsp5XQNK4h2oaddCNKbgO_Hnru0Uh3UKb3RSnWlLy2rja0XD3LFLBLFEwifmB25VcfD-NhTHrLuaWjFJC0oxWP6DiQw_EeXpsN99AqHRVDA"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">Arjun K.</p>
+<p class="text-xs text-on-surface-variant">Weekly Subscriber</p>
+</div>
+</div>
+</div>
+</section>
+<!-- About Link -->
+<section class="px-6 py-8 text-center mb-12">
+<h3 class="font-noto-serif text-2xl font-bold text-on-surface mb-4">Made by hands, <br/>not a factory.</h3>
+<p class="font-body text-on-surface-variant mb-6 px-4">Every dish is prepared with the same care I give to my own family.</p>
+<a class="inline-flex items-center gap-2 text-primary font-bold border-b-2 border-primary-fixed-dim pb-1 hover:opacity-80 transition-opacity" href="#">
+                Meet Chef Saumya
+                <span class="material-symbols-outlined text-sm">arrow_outward</span>
+</a>
+</section>
+</main>
+<!-- Floating Action Button -->
+<div class="fixed bottom-28 right-6 z-40">
+<a class="w-14 h-14 bg-tertiary text-on-tertiary rounded-full shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all" href="https://wa.me/#">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</a>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-3 pb-8 bg-[#ffffff]/90 backdrop-blur-2xl z-50 rounded-t-[2.5rem] shadow-[0_-4px_20px_rgba(28,27,27,0.05)]">
+<!-- Home (Active) -->
+<div class="flex flex-col items-center justify-center text-[#9a4601] font-bold scale-110 transition-all duration-300 ease-out">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-plus-jakarta-sans text-[10px] font-semibold tracking-wide">Home</span>
+</div>
+<!-- Menu -->
+<div class="flex flex-col items-center justify-center text-gray-400 hover:text-[#e07b39] transition-colors">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-plus-jakarta-sans text-[10px] font-semibold tracking-wide">Menu</span>
+</div>
+<!-- Cart -->
+<div class="flex flex-col items-center justify-center text-gray-400 hover:text-[#e07b39] transition-colors">
+<span class="material-symbols-outlined">shopping_basket</span>
+<span class="font-plus-jakarta-sans text-[10px] font-semibold tracking-wide">Cart</span>
+</div>
+<!-- Orders -->
+<div class="flex flex-col items-center justify-center text-gray-400 hover:text-[#e07b39] transition-colors">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-plus-jakarta-sans text-[10px] font-semibold tracking-wide">Orders</span>
+</div>
+<!-- Profile -->
+<div class="flex flex-col items-center justify-center text-gray-400 hover:text-[#e07b39] transition-colors">
+<span class="material-symbols-outlined">person</span>
+<span class="font-plus-jakarta-sans text-[10px] font-semibold tracking-wide">Profile</span>
+</div>
+</nav>
+</body></html>
