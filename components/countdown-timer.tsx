@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Clock } from "lucide-react";
-import { getNextCutoff, getTimeUntilCutoff, isAfterCutoff } from "@/lib/cutoff";
+import { getTimeUntilCutoff, isAfterCutoff } from "@/lib/cutoff";
 
 export function CountdownTimer() {
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
@@ -19,64 +18,82 @@ export function CountdownTimer() {
     return () => clearInterval(interval);
   }, []);
 
-  if (timeLeft === null) {
-    return null; // Avoid hydration mismatch
-  }
-
-  if (afterCutoff) {
-    return (
-      <div className="w-full bg-amber-50 border-b border-amber-200 px-4 py-2.5">
-        <div className="container flex items-center justify-center gap-2 text-sm">
-          <Clock className="h-4 w-4 text-amber-600" />
-          <span className="text-amber-800 font-medium">
-            Orders placed now will be delivered next weekend
-          </span>
-        </div>
-      </div>
-    );
-  }
+  if (timeLeft === null) return null;
 
   const totalSeconds = Math.max(0, Math.floor(timeLeft / 1000));
   const days = Math.floor(totalSeconds / 86400);
   const hours = Math.floor((totalSeconds % 86400) / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
-
-  // Colour logic: green > 24h, yellow 4-24h, red < 4h
   const totalHours = totalSeconds / 3600;
-  let colorClass: string;
-  let bgClass: string;
-  let borderClass: string;
 
-  if (totalHours > 24) {
-    colorClass = "text-green-800";
-    bgClass = "bg-green-50";
-    borderClass = "border-green-200";
-  } else if (totalHours > 4) {
-    colorClass = "text-yellow-800";
-    bgClass = "bg-yellow-50";
-    borderClass = "border-yellow-200";
-  } else {
-    colorClass = "text-red-800";
-    bgClass = "bg-red-50";
-    borderClass = "border-red-200";
+  // Timer colour: green >24h, amber 4-24h, red <4h
+  let timerColor = "text-tertiary";
+  if (totalHours <= 4) timerColor = "text-error";
+  else if (totalHours <= 24) timerColor = "text-primary-container";
+
+  const timeDisplay = [
+    days > 0 ? `${days}d` : "",
+    hours > 0 || days > 0 ? `${String(hours).padStart(2, "0")}h` : "",
+    `${String(minutes).padStart(2, "0")}m`,
+    `${String(seconds).padStart(2, "0")}s`,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  if (afterCutoff) {
+    return (
+      <section className="mb-10 mx-6 max-w-screen-xl xl:mx-auto">
+        <div className="relative overflow-hidden rounded-xl bg-primary-container/10 p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="z-10">
+            <span className="inline-block px-4 py-1 rounded-full bg-amber-100 text-amber-700 text-xs font-headline font-bold mb-3 uppercase tracking-widest">
+              Cutoff Passed
+            </span>
+            <h2 className="font-body text-2xl md:text-3xl text-on-surface mb-2">
+              Orders now preparing for next weekend…
+            </h2>
+            <p className="font-body text-on-surface-variant leading-relaxed">
+              You can still order ahead — your meals will be delivered the following Saturday or Sunday.
+            </p>
+          </div>
+          <div className="z-10 glass-card px-8 py-5 rounded-xl border border-white/20 sun-shadow flex flex-col items-center min-w-[200px]">
+            <span className="font-headline text-xs font-bold uppercase tracking-widest text-primary/70 mb-1">
+              Next Batch Opens
+            </span>
+            <span className="font-headline font-black text-4xl text-primary">Soon™</span>
+          </div>
+        </div>
+      </section>
+    );
   }
 
-  const parts: string[] = [];
-  if (days > 0) parts.push(`${days}d`);
-  if (hours > 0 || days > 0) parts.push(`${hours}h`);
-  parts.push(`${minutes}m`);
-  parts.push(`${String(seconds).padStart(2, "0")}s`);
-
   return (
-    <div className={`w-full ${bgClass} border-b ${borderClass} px-4 py-2.5`}>
-      <div className="container flex items-center justify-center gap-2 text-sm">
-        <Clock className={`h-4 w-4 ${colorClass}`} />
-        <span className={`${colorClass} font-medium`}>
-          Order by Thursday 7 PM &mdash;{" "}
-          <span className="font-mono tabular-nums">{parts.join(" ")}</span> left
-        </span>
+    <section className="mb-10 mx-6 max-w-screen-xl xl:mx-auto">
+      <div className="relative overflow-hidden rounded-xl bg-primary-container/10 p-6 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Decorative blur */}
+        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="z-10 max-w-xl">
+          <span className="inline-block px-4 py-1 rounded-full bg-tertiary/10 text-tertiary text-xs font-headline font-bold mb-3 uppercase tracking-widest">
+            Live Kitchen Status
+          </span>
+          <h2 className="font-body text-2xl md:text-3xl text-on-surface mb-2">
+            The pots are simmering…
+          </h2>
+          <p className="font-body text-on-surface-variant leading-relaxed">
+            Place your order before Thursday 7 PM Sri Lanka time to catch this week&apos;s batch.
+          </p>
+        </div>
+
+        <div className="z-10 glass-card px-8 py-6 rounded-xl border border-white/20 sun-shadow flex flex-col items-center min-w-[220px]">
+          <span className="font-headline text-[10px] font-bold uppercase tracking-widest text-primary mb-2">
+            Ordering closes in
+          </span>
+          <div className={`font-headline font-black text-4xl tracking-tighter animate-breathing ${timerColor}`}>
+            {timeDisplay}
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

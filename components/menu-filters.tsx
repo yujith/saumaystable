@@ -2,7 +2,6 @@
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useCallback } from "react";
-import { Button } from "@/components/ui/button";
 import type { Database } from "@/types/database";
 
 type Category = Database["public"]["Tables"]["categories"]["Row"];
@@ -32,38 +31,40 @@ export function CategoryFilter({ categories }: { categories: Category[] }) {
     router.push(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
   }
 
+  const pillBase =
+    "px-6 py-2.5 rounded-full font-headline font-semibold text-sm whitespace-nowrap transition-all";
+  const pillActive = "bg-primary text-on-primary shadow-md";
+  const pillInactive =
+    "bg-secondary-container text-on-secondary-container hover:bg-surface-container-high";
+
   return (
-    <div className="flex flex-wrap gap-2">
-      <Button
-        variant={activeCategory === "all" ? "default" : "outline"}
-        size="sm"
-        className="rounded-full"
+    <div className="flex items-center gap-3 overflow-x-auto pb-2 no-scrollbar">
+      <button
+        className={`${pillBase} ${activeCategory === "all" ? pillActive : pillInactive}`}
         onClick={() => setCategory("all")}
       >
-        All
-      </Button>
+        All Delicacies
+      </button>
       {categories.map((cat) => (
-        <Button
+        <button
           key={cat.id}
-          variant={activeCategory === cat.id ? "default" : "outline"}
-          size="sm"
-          className="rounded-full"
+          className={`${pillBase} ${activeCategory === cat.id ? pillActive : pillInactive}`}
           onClick={() => setCategory(cat.id)}
         >
           {cat.name}
-        </Button>
+        </button>
       ))}
     </div>
   );
 }
 
 const DIETARY_TAGS = [
-  "vegan",
-  "vegetarian",
-  "gluten-free",
-  "dairy-free",
-  "nut-free",
-  "spicy",
+  { label: "Vegan", value: "vegan" },
+  { label: "Vegetarian", value: "vegetarian" },
+  { label: "Gluten Free", value: "gluten-free" },
+  { label: "Dairy Free", value: "dairy-free" },
+  { label: "Nut Free", value: "nut-free" },
+  { label: "Spicy", value: "spicy" },
 ];
 
 export function DietaryFilter() {
@@ -89,21 +90,26 @@ export function DietaryFilter() {
       params.delete("tags");
     }
 
-    router.push(`${pathname}${params.toString() ? `?${params.toString()}` : ""}`, { scroll: false });
+    router.push(
+      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
+      { scroll: false }
+    );
   }
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex items-center gap-3 overflow-x-auto pb-1 no-scrollbar">
       {DIETARY_TAGS.map((tag) => (
-        <Button
-          key={tag}
-          variant={activeTags.includes(tag) ? "secondary" : "ghost"}
-          size="sm"
-          className="rounded-full text-xs capitalize"
-          onClick={() => toggleTag(tag)}
+        <button
+          key={tag.value}
+          onClick={() => toggleTag(tag.value)}
+          className={`px-4 py-1.5 rounded-full font-label text-xs font-semibold whitespace-nowrap transition-all ${
+            activeTags.includes(tag.value)
+              ? "bg-tertiary text-on-tertiary"
+              : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
+          }`}
         >
-          {tag}
-        </Button>
+          {tag.label}
+        </button>
       ))}
     </div>
   );

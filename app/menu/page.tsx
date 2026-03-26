@@ -42,12 +42,10 @@ export default async function MenuPage({
     .select("*")
     .order("sort_order", { ascending: true });
 
-  // Filter by category
   if (searchParams.category && searchParams.category !== "all") {
     mealsQuery = mealsQuery.eq("category_id", searchParams.category);
   }
 
-  // Filter by dietary tags
   if (searchParams.tags) {
     const tags = searchParams.tags.split(",").filter(Boolean);
     if (tags.length > 0) {
@@ -66,47 +64,65 @@ export default async function MenuPage({
   return (
     <>
       <Navbar />
-      <CountdownTimer />
-      <main className="flex-1">
-        <section className="container py-8 space-y-6">
-          {/* Holiday Mode Banner */}
-          {holidayMode?.enabled && (
-            <div className="rounded-lg bg-amber-50 border border-amber-200 px-4 py-4">
-              <p className="text-sm text-amber-800 font-medium text-center">
-                {holidayMode.message || "We are currently on a break. Orders will resume soon."}
-              </p>
-            </div>
-          )}
+      <main className="pb-32">
+        {/* Holiday Mode Banner */}
+        {holidayMode?.enabled && (
+          <div className="mx-6 max-w-screen-xl xl:mx-auto mb-6 rounded-xl bg-amber-50 border border-amber-200 px-6 py-4">
+            <p className="text-sm text-amber-800 font-headline font-semibold text-center">
+              {holidayMode.message || "We are currently on a break. Orders will resume soon."}
+            </p>
+          </div>
+        )}
 
-          {/* Header */}
-          <div className="space-y-2">
-            <h1 className="text-2xl font-bold tracking-tight">This Week&apos;s Menu</h1>
-            <p className="text-sm text-muted-foreground">
-              Order before Thursday 7 PM Sri Lanka time for weekend delivery.
+        {/* Live Kitchen Banner / Countdown */}
+        <CountdownTimer />
+
+        <div className="max-w-screen-xl mx-auto px-6">
+          {/* Page Header */}
+          <div className="mb-8">
+            <h1 className="font-headline text-4xl md:text-5xl font-bold text-on-surface mb-2">
+              This Week&apos;s Menu
+            </h1>
+            <p className="font-body text-on-surface-variant italic">
+              Fresh from the market to your heart.
             </p>
           </div>
 
-          {/* Filters */}
-          <div className="space-y-3">
+          {/* Sticky Category Filter */}
+          <div className="sticky top-[72px] z-40 bg-background/95 backdrop-blur-md py-4 mb-6">
             <CategoryFilter categories={categories ?? []} />
+          </div>
+
+          {/* Dietary Filters */}
+          <div className="mb-10">
             <DietaryFilter />
           </div>
 
           {/* Meals Grid */}
           {sortedMeals.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground">
-                No meals match your filters. Try removing some filters.
+            <div className="text-center py-24">
+              <span className="text-6xl mb-6 block">🍛</span>
+              <p className="font-body text-on-surface-variant text-lg italic">
+                No meals match your selection — try removing some filters.
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
               {sortedMeals.map((meal) => (
                 <MealCard key={meal.id} meal={meal} />
               ))}
             </div>
           )}
-        </section>
+
+          {/* Load more hint */}
+          {sortedMeals.length > 0 && (
+            <div className="mt-20 flex flex-col items-center">
+              <p className="font-body text-on-surface-variant italic mb-6">
+                Showing {sortedMeals.length} seasonal delights
+              </p>
+            </div>
+          )}
+        </div>
       </main>
       <Footer />
     </>

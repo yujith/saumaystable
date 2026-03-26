@@ -1,10 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { Plus, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { useCartStore, type CartItem } from "@/lib/store/cart";
 import type { Database } from "@/types/database";
 
@@ -30,86 +26,94 @@ export function MealCard({ meal }: { meal: Meal }) {
   };
 
   return (
-    <Card className="overflow-hidden group">
+    <article className={`group ${!meal.is_available ? "opacity-70 grayscale-[0.4]" : ""}`}>
       {/* Image */}
-      <div className="relative aspect-[4/3] bg-muted overflow-hidden">
+      <div className="relative aspect-[4/5] rounded-xl overflow-hidden mb-6 bg-surface-container">
         {meal.image_url ? (
           <Image
             src={meal.image_url}
             alt={meal.name}
             fill
-            className="object-cover transition-transform group-hover:scale-105"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (
-          <div className="flex items-center justify-center h-full text-4xl">
+          <div className="flex items-center justify-center h-full text-5xl bg-surface-container-low">
             🍛
           </div>
         )}
 
-        {/* Sold out overlay */}
+        {/* Sold-out overlay */}
         {!meal.is_available && (
-          <div className="absolute inset-0 bg-background/70 flex items-center justify-center">
-            <span className="text-sm font-medium text-muted-foreground bg-background/90 rounded-full px-4 py-1.5">
-              Not available this week
+          <div className="absolute inset-0 z-10 bg-on-surface/40 flex items-center justify-center backdrop-blur-[2px]">
+            <span className="bg-surface-container-lowest text-on-surface px-6 py-2 rounded-full font-headline font-bold uppercase tracking-[0.2em] shadow-xl text-sm">
+              Not Available
             </span>
           </div>
         )}
 
-        {/* Tags */}
+        {/* Dietary tags */}
         {meal.tags && meal.tags.length > 0 && (
-          <div className="absolute top-2 left-2 flex flex-wrap gap-1">
-            {meal.tags.map((tag) => (
-              <Badge
+          <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-20">
+            {(meal.tags as string[]).slice(0, 2).map((tag) => (
+              <span
                 key={tag}
-                variant="secondary"
-                className="text-[10px] bg-background/90 backdrop-blur-sm"
+                className="bg-surface-container-lowest/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-headline font-bold uppercase tracking-wider text-on-surface"
               >
                 {tag}
-              </Badge>
+              </span>
             ))}
           </div>
         )}
       </div>
 
-      <CardContent className="p-4 space-y-3">
-        <div className="space-y-1">
-          <h3 className="font-semibold text-sm leading-tight line-clamp-2">
-            {meal.name}
-          </h3>
-          {meal.portion_info && (
-            <p className="text-xs text-muted-foreground">{meal.portion_info}</p>
-          )}
-        </div>
+      {/* Details */}
+      <div className="flex justify-between items-start mb-2">
+        <h3 className="font-body text-xl text-on-surface group-hover:text-primary transition-colors leading-tight pr-4">
+          {meal.name}
+        </h3>
+        <span className="font-headline font-bold text-primary shrink-0">
+          {formatLKR(meal.price_lkr)}
+        </span>
+      </div>
 
-        <div className="flex items-center justify-between">
-          <p className="font-bold text-base text-primary">
-            {formatLKR(meal.price_lkr)}
-          </p>
+      {meal.description && (
+        <p className="font-body text-on-surface-variant text-sm mb-4 line-clamp-2 leading-relaxed">
+          {meal.description}
+        </p>
+      )}
 
-          {meal.is_available ? (
-            inCart ? (
-              <Button size="sm" variant="secondary" className="gap-1.5" disabled>
-                <Check className="h-3.5 w-3.5" />
-                In Cart
-              </Button>
-            ) : (
-              <Button
-                size="sm"
-                className="gap-1.5"
-                onClick={() => addItem(cartMeal)}
-              >
-                <Plus className="h-3.5 w-3.5" />
-                Add
-              </Button>
-            )
-          ) : (
-            <Button size="sm" variant="outline" disabled>
-              Unavailable
-            </Button>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+      {meal.portion_info && (
+        <p className="font-label text-xs text-on-surface-variant/70 mb-4">{meal.portion_info}</p>
+      )}
+
+      {/* CTA */}
+      {meal.is_available ? (
+        inCart ? (
+          <button
+            disabled
+            className="w-full py-4 rounded-lg bg-tertiary text-on-tertiary font-headline font-bold flex items-center justify-center gap-2 cursor-default"
+          >
+            <span className="material-symbols-outlined text-lg">check_circle</span>
+            In Your Table
+          </button>
+        ) : (
+          <button
+            onClick={() => addItem(cartMeal)}
+            className="w-full py-4 rounded-lg bg-primary text-on-primary font-headline font-bold hover:bg-primary-container transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
+          >
+            <span className="material-symbols-outlined text-lg">add_shopping_cart</span>
+            Add to Table
+          </button>
+        )
+      ) : (
+        <button
+          disabled
+          className="w-full py-4 rounded-lg bg-surface-container-high text-on-surface-variant/40 font-headline font-bold cursor-not-allowed"
+        >
+          Not Available This Week
+        </button>
+      )}
+    </article>
   );
 }

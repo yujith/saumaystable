@@ -1,19 +1,12 @@
 import Link from "next/link";
-import { Menu, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { CartSheet } from "@/components/cart-sheet";
 import { AnnouncementBanner } from "@/components/announcement-banner";
 import { createClient } from "@/lib/supabase/server";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
   { href: "/menu", label: "Menu" },
+  { href: "/about", label: "About the Chef" },
 ];
 
 export async function Navbar() {
@@ -38,113 +31,76 @@ export async function Navbar() {
   return (
     <>
       <AnnouncementBanner />
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="text-xl font-bold text-primary">
-          Saumya&apos;s Table
-        </Link>
+      <header className="fixed top-0 w-full z-50 glass-nav shadow-sm">
+        <div className="flex justify-between items-center w-full max-w-screen-xl mx-auto px-6 py-4">
+          {/* Brand */}
+          <Link
+            href="/"
+            className="font-serif italic font-bold text-primary text-xl tracking-tight hover:opacity-80 transition-opacity"
+          >
+            Saumya&apos;s Table
+          </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          ))}
-          <CartSheet />
-          {user ? (
-            <div className="flex items-center gap-3">
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="font-headline font-semibold text-sm text-on-surface hover:text-primary transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+            {user && (
               <Link
                 href="/orders"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                className="font-headline font-semibold text-sm text-on-surface hover:text-primary transition-colors"
               >
                 My Orders
               </Link>
-              {isAdmin && (
-                <Link
-                  href="/admin"
-                  className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Admin
-                </Link>
-              )}
-              <Link href="/profile">
-                <Button variant="outline" size="sm" className="gap-1.5">
-                  <User className="h-3.5 w-3.5" />
-                  {displayName}
-                </Button>
+            )}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="font-headline font-semibold text-xs text-on-surface-variant hover:text-primary transition-colors"
+              >
+                Admin
               </Link>
-            </div>
-          ) : (
-            <Link href="/login">
-              <Button variant="outline" size="sm">
-                Log In
-              </Button>
-            </Link>
-          )}
-        </nav>
+            )}
+          </nav>
 
-        {/* Mobile nav */}
-        <div className="flex items-center gap-2 md:hidden">
-          <CartSheet />
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[280px]">
-              <nav className="flex flex-col gap-4 mt-8">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-base font-medium text-foreground transition-colors hover:text-primary"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                <div className="pt-4 border-t space-y-3">
-                  {user ? (
-                    <>
-                      <Link href="/orders">
-                        <Button variant="ghost" className="w-full" size="sm">
-                          My Orders
-                        </Button>
-                      </Link>
-                      <Link href="/profile">
-                        <Button variant="outline" className="w-full gap-1.5" size="sm">
-                          <User className="h-3.5 w-3.5" />
-                          {displayName}
-                        </Button>
-                      </Link>
-                      {isAdmin && (
-                        <Link href="/admin">
-                          <Button variant="ghost" className="w-full" size="sm">
-                            Admin Panel
-                          </Button>
-                        </Link>
-                      )}
-                    </>
-                  ) : (
-                    <Link href="/login">
-                      <Button className="w-full" size="sm">
-                        Log In
-                      </Button>
-                    </Link>
-                  )}
-                </div>
-              </nav>
-            </SheetContent>
-          </Sheet>
+          {/* Right actions */}
+          <div className="flex items-center gap-4">
+            <CartSheet />
+            {user ? (
+              <Link
+                href="/profile"
+                className="hidden md:flex items-center gap-2 font-headline font-semibold text-sm text-on-surface hover:text-primary transition-colors"
+              >
+                <span className="material-symbols-outlined text-primary" style={{ fontSize: "20px" }}>
+                  person
+                </span>
+                <span className="text-xs">{displayName}</span>
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                className="hidden md:flex items-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-full font-headline font-bold text-sm hover:bg-primary-container transition-colors"
+              >
+                Log In
+              </Link>
+            )}
+
+            {/* Mobile hamburger */}
+            <button className="md:hidden text-primary hover:opacity-80 transition-opacity">
+              <span className="material-symbols-outlined">menu</span>
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+      {/* Spacer so content doesn't hide behind fixed navbar */}
+      <div className="h-[72px]" />
     </>
   );
 }

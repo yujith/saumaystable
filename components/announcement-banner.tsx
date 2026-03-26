@@ -9,9 +9,11 @@ export async function AnnouncementBanner() {
     .eq("key", "announcement_banner")
     .single();
 
-  const bannerText = setting?.value as string | null;
+  const bannerConfig = setting?.value as { enabled?: boolean; text?: string; colour?: string } | null;
+  const bannerText = bannerConfig?.text;
+  const isEnabled = bannerConfig?.enabled ?? false;
 
-  if (!bannerText || bannerText.trim() === "") {
+  if (!isEnabled || !bannerText || bannerText.trim() === "") {
     return null;
   }
 

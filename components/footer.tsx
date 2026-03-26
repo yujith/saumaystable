@@ -1,67 +1,94 @@
 import Link from "next/link";
-import { MessageCircle } from "lucide-react";
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="border-t bg-muted/40">
-      <div className="container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Brand */}
-          <div className="space-y-3">
-            <Link href="/" className="text-lg font-bold text-primary">
-              Saumya&apos;s Table
-            </Link>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Home-cooked Sri Lankan meals, prepared with love and delivered weekly.
-            </p>
+    <footer className="bg-on-surface text-surface py-20 px-6 mt-12">
+      <div className="max-w-screen-xl mx-auto grid md:grid-cols-4 gap-12">
+        {/* Brand */}
+        <div className="col-span-2">
+          <h2 className="font-serif italic font-bold text-primary-container text-3xl mb-6">
+            Saumya&apos;s Table
+          </h2>
+          <p className="font-body text-surface/60 max-w-md mb-8 leading-relaxed">
+            The Culinary Letter — a weekly invitation into our home, through the flavours of Sri Lanka.
+          </p>
+          <div className="flex gap-4">
+            <a
+              href="https://wa.me/94771234567"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full border border-surface/20 flex items-center justify-center hover:bg-primary-container hover:border-primary-container transition-colors"
+              aria-label="WhatsApp"
+            >
+              <span className="material-symbols-outlined text-sm">chat</span>
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 rounded-full border border-surface/20 flex items-center justify-center hover:bg-primary-container hover:border-primary-container transition-colors"
+              aria-label="Instagram"
+            >
+              <span className="material-symbols-outlined text-sm">photo_camera</span>
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 rounded-full border border-surface/20 flex items-center justify-center hover:bg-primary-container hover:border-primary-container transition-colors"
+              aria-label="Facebook"
+            >
+              <span className="material-symbols-outlined text-sm">public</span>
+            </a>
           </div>
+        </div>
 
-          {/* Quick Links */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold">Quick Links</h3>
-            <nav className="flex flex-col gap-2">
-              <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Home
+        {/* Explore */}
+        <div>
+          <h6 className="font-headline font-bold mb-6">Explore</h6>
+          <ul className="space-y-4 font-label text-sm text-surface/70">
+            <li>
+              <Link href="/menu" className="hover:text-primary-container transition-colors">
+                Weekly Menu
               </Link>
-              <Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                About Saumya
+            </li>
+            <li>
+              <Link href="/#how-it-works" className="hover:text-primary-container transition-colors">
+                How It Works
               </Link>
-              <Link href="/menu" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Menu
+            </li>
+            <li>
+              <Link href="/orders" className="hover:text-primary-container transition-colors">
+                My Orders
               </Link>
-              <Link href="/login" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            </li>
+          </ul>
+        </div>
+
+        {/* Heart */}
+        <div>
+          <h6 className="font-headline font-bold mb-6">Heart</h6>
+          <ul className="space-y-4 font-label text-sm text-surface/70">
+            <li>
+              <Link href="/about" className="hover:text-primary-container transition-colors">
+                About the Chef
+              </Link>
+            </li>
+            <li>
+              <Link href="/login" className="hover:text-primary-container transition-colors">
                 My Account
               </Link>
-            </nav>
-          </div>
-
-          {/* Contact */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold">Get in Touch</h3>
-            <div className="space-y-2">
+            </li>
+            <li>
               <a
-                href="https://wa.me/94771234567"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                href="mailto:orders@saumyastable.lk"
+                className="hover:text-primary-container transition-colors"
               >
-                <MessageCircle className="h-4 w-4" />
-                WhatsApp Saumya
+                Support
               </a>
-              <p className="text-sm text-muted-foreground">
-                orders@saumyastable.lk
-              </p>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
+      </div>
 
-        <div className="mt-8 pt-8 border-t text-center">
-          <p className="text-xs text-muted-foreground">
-            &copy; {currentYear} Saumya&apos;s Table. All rights reserved.
-          </p>
-        </div>
+      <div className="max-w-screen-xl mx-auto mt-20 pt-8 border-t border-surface/10 text-center font-label text-[10px] text-surface/40 uppercase tracking-widest">
+        © {new Date().getFullYear()} Saumya&apos;s Table. Handcrafted with Care.
       </div>
     </footer>
   );

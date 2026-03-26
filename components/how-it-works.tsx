@@ -1,48 +1,53 @@
-import { ShoppingCart, Clock, Truck } from "lucide-react";
-
 const steps = [
   {
-    icon: ShoppingCart,
-    title: "Browse & Order",
+    icon: "calendar_month",
+    title: "1. Reserve Your Batch",
     description:
-      "Pick your meals from the weekly menu. Add to cart and check out before Thursday 7 PM.",
+      "Choose from our rotating weekly menu. We only cook in small batches to ensure quality.",
   },
   {
-    icon: Clock,
-    title: "Saumya Cooks",
+    icon: "skillet",
+    title: "2. Saumya Cooks",
     description:
-      "Every meal is freshly prepared in Saumya's home kitchen using traditional recipes and fresh ingredients.",
+      "Every meal is prepared by Saumya using family recipes and the morning's freshest market finds.",
   },
   {
-    icon: Truck,
-    title: "Weekend Delivery",
+    icon: "local_shipping",
+    title: "3. Sunday Delivery",
     description:
-      "Your meals are delivered on Saturday or Sunday — hot, fresh, and ready to enjoy.",
+      "We deliver fresh to your door every Saturday or Sunday afternoon, ready for your week.",
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section className="py-16">
-      <div className="container">
-        <h2 className="text-2xl font-bold tracking-tight text-center mb-12">
-          How It Works
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {steps.map((step, index) => (
-            <div key={index} className="text-center space-y-4">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-                <step.icon className="h-7 w-7 text-primary" />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-semibold">{step.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {step.description}
-                </p>
-              </div>
+    <section id="how-it-works" className="py-24 px-6 max-w-screen-xl mx-auto">
+      <div className="text-center mb-16">
+        <h3 className="font-headline text-3xl font-bold text-on-surface mb-4">
+          The Journey to Your Table
+        </h3>
+        <div className="h-1 w-20 bg-primary mx-auto rounded-full" />
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-12">
+        {steps.map((step) => (
+          <div
+            key={step.title}
+            className="flex flex-col items-center text-center group"
+          >
+            <div className="w-20 h-20 bg-secondary-container rounded-full flex items-center justify-center mb-6 group-hover:bg-primary-container transition-colors duration-500">
+              <span className="material-symbols-outlined text-primary text-3xl">
+                {step.icon}
+              </span>
             </div>
-          ))}
-        </div>
+            <h4 className="font-headline text-xl font-bold text-on-surface mb-3">
+              {step.title}
+            </h4>
+            <p className="font-body text-on-surface-variant leading-relaxed">
+              {step.description}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );

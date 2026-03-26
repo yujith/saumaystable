@@ -331,5 +331,27 @@ All admin routes under `/app/(admin)/admin/` — protected by middleware (admin 
 - [ ] Google Maps Places autocomplete on checkout address form (requires API key setup)
 - [ ] Delivery fee calculation based on delivery zone (currently hardcoded to 0)
 - [ ] Guest checkout: currently redirects to login — need to decide if guest checkout stays in scope for v1
-- [ ] BLOCKER: Real Saumya kitchen photo needed for About page before production launch
+- [ ] BLOCKER: Real Saumya kitchen photo needed for About page, hero, and sign-off before production launch
 - [ ] IDE lint errors for `Cannot find module './xyz'` are transient — they resolve after build, not actual issues
+
+---
+
+## Phase 12 — UI Redesign (Saffron Hearth)
+
+Applied the "Culinary Letter" design system from `UI/` folder across all customer-facing pages.
+
+- [x] Update `tailwind.config.ts` — full Saffron Hearth palette, font tokens, border-radius, animations
+- [x] Update `app/globals.css` — Google Fonts import, glassmorphism utilities, editorial shadows, body defaults
+- [x] Update `app/layout.tsx` — load Plus Jakarta Sans + Noto Serif via next/font, inject Material Symbols
+- [x] Redesign `components/navbar.tsx` — glassmorphic sticky header, italic Noto Serif brand, preserve auth logic
+- [x] Redesign `components/footer.tsx` — dark `on-surface` background, 4-col grid, social links
+- [x] Redesign `components/how-it-works.tsx` — Material Symbols icons, tonal circular backgrounds, hover transitions
+- [x] Redesign `components/meal-card.tsx` — editorial 4/5 aspect ratio, sold-out blur overlay, dietary tag pills, full-width CTA
+- [x] Redesign `components/menu-filters.tsx` — pill category filter, tertiary dietary chip pills
+- [x] Redesign `components/countdown-timer.tsx` — glassmorphic live kitchen banner with breathing animation
+- [x] Rebuild `app/page.tsx` — full-bleed hero, specials grid (real data), testimonial, about CTA
+- [x] Rebuild `app/about/page.tsx` — editorial 12-col hero, pull quote, bento grid, sign-off
+- [x] Update `app/menu/page.tsx` — countdown banner inside main, sticky filter bar, editorial header
+- [x] Build check: `npm run build` passes with zero TypeScript errors (37 routes)
+- [x] Push to GitHub: https://github.com/yujith/saumaystable.git
+- [ ] Replace all DEV PLACEHOLDER photos with real Saumya kitchen/portrait photos before launch
