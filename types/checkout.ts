@@ -26,6 +26,7 @@ export const createOrderSchema = z.object({
   delivery_date_preference: z.enum(["saturday", "sunday"]),
   payment_method: z.enum(["cod", "bank_transfer"]),
   notes: z.string().max(500).optional(),
+  bank_reference: z.string().max(50).optional(),
   whatsapp_opted_in: z.boolean().optional(),
   // Guest fields (used when not logged in)
   guest_email: z.string().email().optional().or(z.literal("")),

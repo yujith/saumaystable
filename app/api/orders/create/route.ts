@@ -30,14 +30,28 @@ export async function POST(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
 
+    // Get user profile name for reference code
+    let userName = null;
+    if (user) {
+      const { data: profile } = await serviceClient
+        .from("profiles")
+        .select("name")
+        .eq("user_id", user.id)
+        .single();
+      userName = profile?.name || null;
+    }
+
     // Calculate delivery week
     const deliveryWeek = getDeliveryWeek();
     const deliveryWeekStart = format(deliveryWeek.deliveryWeekStart, "yyyy-MM-dd");
 
-    // Generate order reference code using the DB function
+    // Generate order reference code using the DB function with user name
     const { data: refCode, error: refError } = await serviceClient.rpc(
       "generate_order_reference_code",
-      { p_delivery_week_start: deliveryWeekStart }
+      { 
+        p_delivery_week_start: deliveryWeekStart,
+        p_user_name: userName 
+      }
     );
 
     if (refError || !refCode) {
@@ -129,6 +143,7 @@ export async function POST(request: NextRequest) {
         delivery_fee_lkr: deliveryFeeLkr,
         total_lkr: totalLkr,
         notes: data.notes || null,
+        bank_reference: data.bank_reference || null,
       })
       .select("id, order_reference_code")
       .single();

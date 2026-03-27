@@ -53,8 +53,8 @@ export default async function CheckoutPage() {
   return (
     <>
       <Navbar />
-      <main className="flex-1">
-        <div className="container max-w-2xl py-8">
+      <main className="flex-1 pt-24 pb-20 px-6">
+        <div className="max-w-screen-xl mx-auto">
           <CheckoutFlow
             addresses={addresses ?? []}
             bankDetails={bankSettings?.value as Record<string, string> | null}

@@ -1,15 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Loader2, MapPin, CreditCard, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
+import { Loader2, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/lib/store/cart";
 import { getDeliveryWeek, formatDeliveryDate } from "@/lib/cutoff";
 import type { Database } from "@/types/database";
@@ -24,14 +21,6 @@ interface CheckoutFlowProps {
   userEmail: string;
 }
 
-type Step = "address" | "payment" | "summary";
-
-const steps: { key: Step; label: string; icon: typeof MapPin }[] = [
-  { key: "address", label: "Address", icon: MapPin },
-  { key: "payment", label: "Payment", icon: CreditCard },
-  { key: "summary", label: "Confirm", icon: CheckCircle2 },
-];
-
 function formatLKR(amount: number): string {
   return `LKR ${amount.toLocaleString("en-LK", { minimumFractionDigits: 2 })}`;
 }
@@ -41,16 +30,13 @@ export function CheckoutFlow({
   bankDetails,
   paymentMethods,
   profile,
-  userEmail,
 }: CheckoutFlowProps) {
-  const router = useRouter();
   const items = useCartStore((s) => s.items);
   const deliveryDayPreference = useCartStore((s) => s.deliveryDayPreference);
   const setDeliveryDayPreference = useCartStore((s) => s.setDeliveryDayPreference);
   const getSubtotal = useCartStore((s) => s.getSubtotal);
   const clearCart = useCartStore((s) => s.clearCart);
 
-  const [currentStep, setCurrentStep] = useState<Step>("address");
   const [selectedAddressId, setSelectedAddressId] = useState<string>(
     addresses.find((a) => a.is_default)?.id ?? addresses[0]?.id ?? ""
   );
@@ -62,11 +48,9 @@ export function CheckoutFlow({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Payment method settings - default to enabled if not set
   const isCodEnabled = paymentMethods?.cod_enabled !== false;
   const isBankTransferEnabled = paymentMethods?.bank_transfer_enabled === true;
 
-  // New address form state
   const [showNewAddress, setShowNewAddress] = useState(addresses.length === 0);
   const [newAddress, setNewAddress] = useState({
     label: "",
@@ -75,7 +59,6 @@ export function CheckoutFlow({
     district: "",
   });
 
-  // Delivery info
   const [deliveryInfo, setDeliveryInfo] = useState<{
     sat: string;
     sun: string;
@@ -95,7 +78,7 @@ export function CheckoutFlow({
   }, []);
 
   const subtotal = mounted ? getSubtotal() : 0;
-  const deliveryFee = 0; // TODO: Calculate based on delivery zone
+  const deliveryFee = 0;
   const total = subtotal + deliveryFee;
 
   if (!mounted) return null;
@@ -103,8 +86,8 @@ export function CheckoutFlow({
   if (items.length === 0) {
     return (
       <div className="text-center py-16 space-y-4">
-        <p className="text-muted-foreground">Your cart is empty.</p>
-        <Button onClick={() => router.push("/menu")}>Browse Menu</Button>
+        <p className="font-body text-secondary text-lg">Your cart is empty.</p>
+        <Button onClick={() => window.location.href = "/menu"}>Browse Menu</Button>
       </div>
     );
   }
@@ -138,7 +121,6 @@ export function CheckoutFlow({
     try {
       let addressId = selectedAddressId;
 
-      // If creating new address, save it first
       if (showNewAddress) {
         const newId = await handleSaveNewAddress();
         if (!newId) {
@@ -182,219 +164,231 @@ export function CheckoutFlow({
       }
 
       clearCart();
-      router.push(`/order-confirmation/${result.orderId}`);
+      window.location.href = `/order-confirmation/${result.orderId}`;
     } catch {
       setError("An unexpected error occurred. Please try again.");
       setIsSubmitting(false);
     }
   }
 
-  const stepIndex = steps.findIndex((s) => s.key === currentStep);
-
   return (
-    <div className="space-y-6">
-      {/* Step indicator */}
-      <div className="flex items-center justify-center gap-2">
-        {steps.map((step, idx) => (
-          <div key={step.key} className="flex items-center">
-            <button
-              onClick={() => {
-                if (idx < stepIndex) setCurrentStep(step.key);
-              }}
-              className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                idx === stepIndex
-                  ? "bg-primary text-primary-foreground"
-                  : idx < stepIndex
-                  ? "bg-primary/10 text-primary cursor-pointer hover:bg-primary/20"
-                  : "bg-muted text-muted-foreground"
-              }`}
-            >
-              <step.icon className="h-3.5 w-3.5" />
-              {step.label}
-            </button>
-            {idx < steps.length - 1 && (
-              <div className="w-8 h-px bg-border mx-1" />
-            )}
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      {/* Left Column: Checkout Steps */}
+      <div className="lg:col-span-8 space-y-12">
+        <div className="space-y-2">
+          <h1 className="font-headline font-extrabold text-3xl lg:text-4xl tracking-tight text-on-surface">
+            Finalize Your Order
+          </h1>
+          <p className="font-body text-secondary text-lg">
+            Secure and simple. Your Sri Lankan feast is just a few steps away.
+          </p>
+        </div>
+
+        {error && (
+          <div className="rounded-lg bg-error-container px-4 py-3 text-sm text-on-error-container">
+            {error}
           </div>
-        ))}
-      </div>
+        )}
 
-      {/* Delivery week banner */}
-      {deliveryInfo && (
-        <div
-          className={`rounded-md px-4 py-2.5 text-sm font-medium text-center ${
-            deliveryInfo.isNextWeek
-              ? "bg-amber-50 text-amber-800 border border-amber-200"
-              : "bg-green-50 text-green-800 border border-green-200"
-          }`}
-        >
-          {deliveryInfo.isNextWeek ? "⚠ Delivery next week: " : "Delivery this week: "}
-          {deliveryInfo.sat} / {deliveryInfo.sun}
-        </div>
-      )}
+        {/* Step 1: Delivery Address */}
+        <section className="bg-surface-container-lowest p-6 lg:p-8 rounded-xl shadow-editorial space-y-6">
+          <div className="flex items-center gap-4">
+            <span className="w-10 h-10 rounded-full bg-tertiary-container text-white flex items-center justify-center font-headline font-bold">
+              1
+            </span>
+            <h2 className="font-headline font-bold text-xl lg:text-2xl text-on-surface">
+              Delivery Destination
+            </h2>
+          </div>
 
-      {error && (
-        <div className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
-          {error}
-        </div>
-      )}
-
-      {/* Step 1: Address */}
-      {currentStep === "address" && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Delivery Address</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Delivery day preference */}
-            <div className="space-y-2">
-              <Label>Preferred Delivery Day</Label>
-              <div className="flex gap-3">
-                <Button
-                  type="button"
-                  variant={deliveryDayPreference === "saturday" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setDeliveryDayPreference("saturday")}
-                >
-                  Saturday{deliveryInfo ? ` (${deliveryInfo.sat})` : ""}
-                </Button>
-                <Button
-                  type="button"
-                  variant={deliveryDayPreference === "sunday" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setDeliveryDayPreference("sunday")}
-                >
-                  Sunday{deliveryInfo ? ` (${deliveryInfo.sun})` : ""}
-                </Button>
-              </div>
-            </div>
-
-            <Separator />
-
-            {/* Saved addresses */}
-            {addresses.length > 0 && !showNewAddress && (
-              <div className="space-y-3">
-                <Label>Select an address</Label>
-                {addresses.map((addr) => (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left: Address Form */}
+            <div className="space-y-4">
+              {/* Saved Addresses */}
+              {addresses.length > 0 && !showNewAddress && (
+                <div className="space-y-3">
+                  <Label className="font-headline font-semibold text-xs text-secondary uppercase tracking-widest">
+                    Select an Address
+                  </Label>
+                  {addresses.map((addr) => (
+                    <button
+                      key={addr.id}
+                      type="button"
+                      className={`w-full text-left rounded-lg p-4 transition-all ${
+                        selectedAddressId === addr.id
+                          ? "bg-primary/5 border-2 border-primary"
+                          : "bg-surface-container hover:bg-surface-container-high border-2 border-transparent"
+                      }`}
+                      onClick={() => setSelectedAddressId(addr.id)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                          selectedAddressId === addr.id ? "bg-primary-container/30" : "bg-secondary-container"
+                        }`}>
+                          <MapPin className={`h-5 w-5 ${selectedAddressId === addr.id ? "text-primary" : "text-secondary"}`} />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-headline font-bold text-sm">{addr.label || "Address"}</span>
+                            {addr.is_default && (
+                              <Badge variant="secondary" className="text-[10px] bg-tertiary-fixed text-tertiary">Default</Badge>
+                            )}
+                          </div>
+                          <p className="text-xs font-label text-secondary mt-0.5">
+                            {addr.street}{addr.city ? `, ${addr.city}` : ""}{addr.district ? `, ${addr.district}` : ""}
+                          </p>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
                   <button
-                    key={addr.id}
                     type="button"
-                    className={`w-full text-left rounded-lg border p-3 transition-colors ${
-                      selectedAddressId === addr.id
-                        ? "border-primary bg-primary/5"
-                        : "border-border hover:border-primary/50"
-                    }`}
-                    onClick={() => setSelectedAddressId(addr.id)}
+                    onClick={() => setShowNewAddress(true)}
+                    className="text-primary font-semibold text-sm hover:underline"
                   >
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm font-medium">{addr.label || "Address"}</span>
-                      {addr.is_default && (
-                        <Badge variant="secondary" className="text-[10px]">Default</Badge>
-                      )}
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1 ml-6">
-                      {addr.street}{addr.city ? `, ${addr.city}` : ""}{addr.district ? `, ${addr.district}` : ""}
-                    </p>
+                    + Add new address
                   </button>
-                ))}
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowNewAddress(true)}
-                >
-                  + Add new address
-                </Button>
-              </div>
-            )}
+                </div>
+              )}
 
-            {/* New address form */}
-            {(showNewAddress || addresses.length === 0) && (
-              <div className="space-y-3">
-                <Label>New delivery address</Label>
-                <div className="space-y-2">
-                  <Input
-                    placeholder="Label (e.g. Home, Office)"
-                    value={newAddress.label}
-                    onChange={(e) => setNewAddress((p) => ({ ...p, label: e.target.value }))}
-                  />
-                  <Input
-                    placeholder="Street address *"
-                    value={newAddress.street}
-                    onChange={(e) => setNewAddress((p) => ({ ...p, street: e.target.value }))}
-                  />
-                  <div className="grid grid-cols-2 gap-2">
+              {/* New Address Form */}
+              {(showNewAddress || addresses.length === 0) && (
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label className="font-headline font-semibold text-xs text-secondary uppercase tracking-widest">
+                      Street Address
+                    </Label>
                     <Input
-                      placeholder="City *"
-                      value={newAddress.city}
-                      onChange={(e) => setNewAddress((p) => ({ ...p, city: e.target.value }))}
-                    />
-                    <Input
-                      placeholder="District *"
-                      value={newAddress.district}
-                      onChange={(e) => setNewAddress((p) => ({ ...p, district: e.target.value }))}
+                      placeholder="45 Galle Road, Colombo 03"
+                      value={newAddress.street}
+                      onChange={(e) => setNewAddress((p) => ({ ...p, street: e.target.value }))}
+                      className="bg-surface-container border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all"
                     />
                   </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label className="font-headline font-semibold text-xs text-secondary uppercase tracking-widest">
+                        City
+                      </Label>
+                      <Input
+                        placeholder="Colombo"
+                        value={newAddress.city}
+                        onChange={(e) => setNewAddress((p) => ({ ...p, city: e.target.value }))}
+                        className="bg-surface-container border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="font-headline font-semibold text-xs text-secondary uppercase tracking-widest">
+                        District
+                      </Label>
+                      <Input
+                        placeholder="Colombo 03"
+                        value={newAddress.district}
+                        onChange={(e) => setNewAddress((p) => ({ ...p, district: e.target.value }))}
+                        className="bg-surface-container border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all"
+                      />
+                    </div>
+                  </div>
+                  {addresses.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => setShowNewAddress(false)}
+                      className="text-secondary text-sm hover:underline"
+                    >
+                      Use saved address instead
+                    </button>
+                  )}
                 </div>
-                {addresses.length > 0 && (
+              )}
+
+              {/* Delivery Day Preference */}
+              <div className="space-y-2 pt-2">
+                <Label className="font-headline font-semibold text-xs text-secondary uppercase tracking-widest">
+                  Preferred Delivery Day
+                </Label>
+                <div className="flex gap-3">
                   <Button
                     type="button"
-                    variant="ghost"
+                    variant={deliveryDayPreference === "saturday" ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setShowNewAddress(false)}
+                    onClick={() => setDeliveryDayPreference("saturday")}
+                    className={deliveryDayPreference === "saturday" ? "bg-primary hover:bg-primary/90" : "border-outline-variant hover:bg-surface-container"}
                   >
-                    Use saved address instead
+                    Saturday{deliveryInfo ? ` (${deliveryInfo.sat})` : ""}
                   </Button>
-                )}
+                  <Button
+                    type="button"
+                    variant={deliveryDayPreference === "sunday" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setDeliveryDayPreference("sunday")}
+                    className={deliveryDayPreference === "sunday" ? "bg-primary hover:bg-primary/90" : "border-outline-variant hover:bg-surface-container"}
+                  >
+                    Sunday{deliveryInfo ? ` (${deliveryInfo.sun})` : ""}
+                  </Button>
+                </div>
               </div>
-            )}
-
-            <div className="pt-2">
-              <Button
-                className="w-full"
-                onClick={() => {
-                  if (!showNewAddress && !selectedAddressId) {
-                    setError("Please select an address.");
-                    return;
-                  }
-                  if (showNewAddress && (!newAddress.street || !newAddress.city || !newAddress.district)) {
-                    setError("Please fill in all address fields.");
-                    return;
-                  }
-                  setError(null);
-                  setCurrentStep("payment");
-                }}
-              >
-                Continue to Payment
-              </Button>
             </div>
-          </CardContent>
-        </Card>
-      )}
 
-      {/* Step 2: Payment */}
-      {currentStep === "payment" && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Payment Method</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* COD */}
+            {/* Right: Map */}
+            <div className="hidden lg:block">
+              <div className="relative h-64 lg:h-full min-h-[280px] rounded-lg overflow-hidden group bg-surface-container">
+                <div className="absolute inset-0 bg-gradient-to-br from-surface-container-low via-surface-container to-surface-container-high opacity-50" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="material-symbols-outlined text-primary text-5xl mb-3" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
+                  <div className="bg-surface-container-lowest px-5 py-3 rounded-full shadow-lg font-headline font-bold text-xs">
+                    Pin Dropped
+                  </div>
+                  <p className="mt-4 text-xs text-secondary font-label">
+                    Delivery to {newAddress.city || "Colombo"}
+                  </p>
+                </div>
+                <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Step 2: Payment Method */}
+        <section className="bg-surface-container-lowest p-6 lg:p-8 rounded-xl shadow-editorial space-y-6">
+          <div className="flex items-center gap-4">
+            <span className="w-10 h-10 rounded-full bg-tertiary-container text-white flex items-center justify-center font-headline font-bold">
+              2
+            </span>
+            <h2 className="font-headline font-bold text-xl lg:text-2xl text-on-surface">
+              Payment Method
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Cash on Delivery */}
             {isCodEnabled && (
               <button
                 type="button"
-                className={`w-full text-left rounded-lg border p-4 transition-colors ${
+                className={`border-2 p-6 rounded-lg flex flex-col justify-between h-40 transition-all ${
                   paymentMethod === "cod"
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/50"
+                    ? "border-primary bg-primary/[0.03]"
+                    : "border-transparent hover:border-outline-variant bg-surface-container"
                 }`}
                 onClick={() => setPaymentMethod("cod")}
               >
-                <p className="font-medium text-sm">Cash on Delivery</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Pay when your meal is delivered.
-                </p>
+                <div className="flex justify-between items-start">
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                    paymentMethod === "cod" ? "bg-primary-container/20" : "bg-secondary-container"
+                  }`}>
+                    <span className="material-symbols-outlined text-primary text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>payments</span>
+                  </div>
+                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                    paymentMethod === "cod" ? "border-primary" : "border-outline-variant"
+                  }`}>
+                    {paymentMethod === "cod" && (
+                      <div className="w-3 h-3 rounded-full bg-primary" />
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-headline font-bold text-lg">Cash on Delivery</h3>
+                  <p className="font-body text-secondary text-sm">Pay when you receive your meal.</p>
+                </div>
               </button>
             )}
 
@@ -402,175 +396,202 @@ export function CheckoutFlow({
             {isBankTransferEnabled && (
               <button
                 type="button"
-                className={`w-full text-left rounded-lg border p-4 transition-colors ${
+                className={`border-2 p-6 rounded-lg flex flex-col justify-between h-40 transition-all ${
                   paymentMethod === "bank_transfer"
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/50"
+                    ? "border-primary bg-primary/[0.03]"
+                    : "border-transparent hover:border-outline-variant bg-surface-container"
                 }`}
                 onClick={() => setPaymentMethod("bank_transfer")}
               >
-                <p className="font-medium text-sm">Bank Transfer</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Transfer to our bank account and upload the payment slip.
-                </p>
+                <div className="flex justify-between items-start">
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                    paymentMethod === "bank_transfer" ? "bg-primary-fixed" : "bg-secondary-container"
+                  }`}>
+                    <span className="material-symbols-outlined text-secondary text-2xl">account_balance</span>
+                  </div>
+                  <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                    paymentMethod === "bank_transfer" ? "border-primary" : "border-outline-variant"
+                  }`}>
+                    {paymentMethod === "bank_transfer" && (
+                      <div className="w-3 h-3 rounded-full bg-primary" />
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-headline font-bold text-lg">Bank Transfer</h3>
+                  <p className="font-body text-secondary text-sm">Transfer details provided on next step.</p>
+                </div>
               </button>
             )}
+          </div>
 
-            {/* No payment methods warning */}
-            {!isCodEnabled && !isBankTransferEnabled && (
-              <div className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
-                No payment methods are currently available. Please contact support.
+          {/* Bank Transfer Security Details */}
+          {paymentMethod === "bank_transfer" && bankDetails && (
+            <div className="bg-surface-container p-6 rounded-lg space-y-4">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="material-symbols-outlined text-tertiary">verified_user</span>
+                <p className="font-headline font-semibold text-sm text-tertiary">Bank Transfer Security Details</p>
               </div>
-            )}
-
-            {/* Bank details shown when bank transfer is selected */}
-            {paymentMethod === "bank_transfer" && bankDetails && (
-              <div className="rounded-lg bg-muted/50 border p-4 space-y-2">
-                <p className="text-xs font-semibold uppercase text-muted-foreground">
-                  Bank Account Details
-                </p>
-                <div className="space-y-1 text-sm">
-                  <p><span className="text-muted-foreground">Bank:</span> {bankDetails.bank_name}</p>
-                  <p><span className="text-muted-foreground">Account Name:</span> {bankDetails.account_name}</p>
-                  <p><span className="text-muted-foreground">Account Number:</span> <span className="font-mono">{bankDetails.account_number}</span></p>
-                  {bankDetails.branch && (
-                    <p><span className="text-muted-foreground">Branch:</span> {bankDetails.branch}</p>
-                  )}
+              <div className="grid grid-cols-2 gap-4 text-sm font-headline">
+                <div>
+                  <p className="text-secondary">Bank Name</p>
+                  <p className="font-bold">{bankDetails.bank_name || "Bank"}</p>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                  Your unique Order Reference Code will be shown after placing the order.
-                  Use it as the payment reference.
+                <div>
+                  <p className="text-secondary">Account No</p>
+                  <p className="font-bold font-mono">{bankDetails.account_number || "****"}</p>
+                </div>
+                <div>
+                  <p className="text-secondary">Account Name</p>
+                  <p className="font-bold">{bankDetails.account_name || "Account"}</p>
+                </div>
+                {bankDetails.branch && (
+                  <div>
+                    <p className="text-secondary">Branch</p>
+                    <p className="font-bold">{bankDetails.branch}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Bank Transfer Instructions */}
+              <div className="pt-4 border-t border-outline-variant/20">
+                <p className="text-sm text-secondary">
+                  After placing your order, you&apos;ll be able to upload your payment slip on the confirmation page for faster verification.
                 </p>
               </div>
-            )}
-
-            {/* // TODO: v2 — PayHere integration */}
-
-            {/* Special instructions */}
-            <div className="space-y-2">
-              <Label htmlFor="notes">Special Instructions (optional)</Label>
-              <Textarea
-                id="notes"
-                placeholder="Any dietary notes or delivery instructions..."
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                maxLength={500}
-                rows={3}
-              />
             </div>
+          )}
 
-            {/* WhatsApp opt-in */}
-            <div className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                id="whatsapp_opt"
-                className="h-4 w-4 rounded border-input"
-                checked={whatsappOptIn}
-                onChange={(e) => setWhatsappOptIn(e.target.checked)}
-              />
-              <Label htmlFor="whatsapp_opt" className="text-sm font-normal">
-                Send me order updates via WhatsApp
-              </Label>
-            </div>
+          {/* Special Instructions */}
+          <div className="space-y-2">
+            <Label htmlFor="notes" className="font-headline font-semibold text-xs text-secondary uppercase tracking-widest">
+              Special Instructions (optional)
+            </Label>
+            <textarea
+              id="notes"
+              placeholder="Any dietary notes or delivery instructions..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              maxLength={500}
+              rows={3}
+              className="w-full bg-surface-container border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all resize-none font-label text-sm"
+            />
+          </div>
+        </section>
+      </div>
 
-            <div className="flex gap-3 pt-2">
-              <Button variant="outline" onClick={() => setCurrentStep("address")}>
-                Back
-              </Button>
-              <Button 
-                className="flex-1" 
-                onClick={() => setCurrentStep("summary")}
-                disabled={!isCodEnabled && !isBankTransferEnabled}
-              >
-                Review Order
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      {/* Right Column: Sticky Order Summary */}
+      <aside className="lg:col-span-4">
+        <div className="lg:sticky lg:top-24 h-fit">
+          <div className="bg-surface-container p-6 lg:p-8 rounded-xl shadow-editorial space-y-8">
+            <h2 className="font-headline font-bold text-2xl text-on-surface">Your Selection</h2>
 
-      {/* Step 3: Summary */}
-      {currentStep === "summary" && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Order Summary</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Line items */}
-            <div className="space-y-2">
+            {/* Cart Items */}
+            <div className="space-y-6">
               {items.map((item) => (
-                <div key={item.meal.id} className="flex items-center justify-between text-sm">
-                  <div className="flex-1 min-w-0">
-                    <span className="truncate">{item.meal.name}</span>
-                    <span className="text-muted-foreground ml-1">&times;{item.quantity}</span>
+                <div key={item.meal.id} className="flex gap-4">
+                  <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-low">
+                    {item.meal.image_url ? (
+                      <Image
+                        src={item.meal.image_url}
+                        alt={item.meal.name}
+                        fill
+                        className="object-cover"
+                        sizes="64px"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <MapPin className="h-6 w-6 text-outline-variant" />
+                      </div>
+                    )}
                   </div>
-                  <span className="font-medium ml-4">
+                  <div className="flex-grow min-w-0">
+                    <h4 className="font-body font-bold text-sm text-on-surface truncate">{item.meal.name}</h4>
+                    <p className="text-xs font-headline text-secondary">Qty: {item.quantity}</p>
+                  </div>
+                  <div className="font-headline font-bold text-primary">
                     {formatLKR(item.meal.price_lkr * item.quantity)}
-                  </span>
+                  </div>
                 </div>
               ))}
             </div>
 
-            <Separator />
+            <div className="h-[1px] bg-outline-variant/30" />
 
             {/* Totals */}
-            <div className="space-y-1">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Subtotal</span>
+            <div className="space-y-4 font-headline">
+              <div className="flex justify-between text-secondary">
+                <span>Subtotal</span>
                 <span>{formatLKR(subtotal)}</span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Delivery fee</span>
+              <div className="flex justify-between text-secondary">
+                <span>Delivery Fee</span>
                 <span>{deliveryFee === 0 ? "Free" : formatLKR(deliveryFee)}</span>
               </div>
-              <div className="flex justify-between text-base font-bold pt-1">
-                <span>Total</span>
-                <span className="text-primary">{formatLKR(total)}</span>
+              <div className="flex justify-between items-baseline pt-4">
+                <span className="text-on-surface font-bold text-lg">Total</span>
+                <span className="text-primary font-extrabold text-3xl">{formatLKR(total)}</span>
               </div>
             </div>
 
-            <Separator />
-
-            {/* Details */}
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Delivery day</span>
-                <span className="capitalize">{deliveryDayPreference}</span>
+            {/* WhatsApp Opt-in */}
+            <div className="bg-surface-container-low p-4 rounded-lg flex items-start gap-3 border border-outline-variant/20">
+              <div className="pt-0.5">
+                <input
+                  type="checkbox"
+                  id="whatsapp_opt"
+                  className="rounded-sm border-secondary text-primary focus:ring-primary h-5 w-5"
+                  checked={whatsappOptIn}
+                  onChange={(e) => setWhatsappOptIn(e.target.checked)}
+                />
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Payment</span>
-                <span>{paymentMethod === "cod" ? "Cash on Delivery" : "Bank Transfer"}</span>
+              <div className="space-y-1">
+                <label htmlFor="whatsapp_opt" className="font-headline font-bold text-sm text-on-surface flex items-center gap-1.5 cursor-pointer">
+                  WhatsApp Updates
+                  <span className="bg-[#25D366] text-white px-1.5 py-0.5 rounded text-[10px] uppercase font-black tracking-tighter">Live</span>
+                </label>
+                <p className="font-body text-xs text-secondary leading-relaxed">
+                  Receive live cooking updates and rider tracking via WhatsApp messages.
+                </p>
               </div>
-              {notes && (
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Notes</span>
-                  <span className="text-right max-w-[200px] truncate">{notes}</span>
-                </div>
-              )}
             </div>
 
-            <div className="flex gap-3 pt-2">
-              <Button variant="outline" onClick={() => setCurrentStep("payment")}>
-                Back
-              </Button>
-              <Button
-                className="flex-1"
+            {/* Place Order Button */}
+            <div className="space-y-4 pt-2">
+              <button
                 onClick={handlePlaceOrder}
                 disabled={isSubmitting}
+                className="w-full bg-primary text-on-primary font-headline font-bold py-5 rounded-lg text-lg flex items-center justify-center gap-3 hover:bg-primary-container transition-colors shadow-lg active:scale-[0.98] transition-transform disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="h-5 w-5 animate-spin" />
                     Placing Order...
                   </>
                 ) : (
-                  `Place Order · ${formatLKR(total)}`
+                  <>
+                    Place Order
+                    <span className="material-symbols-outlined">chevron_right</span>
+                  </>
                 )}
-              </Button>
+              </button>
+              <p className="text-center font-body text-[10px] text-secondary">
+                By placing an order, you agree to Saumya&apos;s Culinary Terms &amp; Conditions.
+              </p>
             </div>
-          </CardContent>
-        </Card>
-      )}
+          </div>
+
+          {/* Handcrafted Signature */}
+          <div className="mt-8 bg-tertiary/10 p-6 rounded-xl relative overflow-hidden flex items-center gap-4">
+            <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-tertiary/5 rounded-full blur-2xl" />
+            <span className="material-symbols-outlined text-tertiary text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>eco</span>
+            <div>
+              <p className="font-body italic font-bold text-tertiary">Handcrafted with Love</p>
+              <p className="font-headline text-xs text-on-tertiary-fixed-variant">All packaging is 100% compostable and plastic-free.</p>
+            </div>
+          </div>
+        </div>
+      </aside>
     </div>
   );
 }
