@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Loader2, MapPin } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Loader2, MapPin, CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -47,6 +48,7 @@ export function CheckoutFlow({
   const [whatsappOptIn, setWhatsappOptIn] = useState(profile?.whatsapp_opted_in ?? true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<{ orderId: string; orderRef: string } | null>(null);
 
   const isCodEnabled = paymentMethods?.cod_enabled !== false;
   const isBankTransferEnabled = paymentMethods?.bank_transfer_enabled === true;
@@ -76,6 +78,8 @@ export function CheckoutFlow({
       isNextWeek: week.isNextWeek,
     });
   }, []);
+
+  const router = useRouter();
 
   const subtotal = mounted ? getSubtotal() : 0;
   const deliveryFee = 0;
@@ -158,15 +162,26 @@ export function CheckoutFlow({
       const result = await res.json();
 
       if (!res.ok) {
-        setError(result.error || "Failed to place order.");
+        setError(result.error || "Failed to place order. Please try again.");
         setIsSubmitting(false);
         return;
       }
 
       clearCart();
-      window.location.href = `/order-confirmation/${result.orderId}`;
-    } catch {
-      setError("An unexpected error occurred. Please try again.");
+      
+      // Show success message before redirecting
+      setSuccess({
+        orderId: result.orderId,
+        orderRef: result.orderReferenceCode || result.orderId.slice(0, 8),
+      });
+      
+      // Delay redirect slightly so user sees the success message
+      setTimeout(() => {
+        router.push(`/order-confirmation/${result.orderId}`);
+      }, 2000);
+    } catch (err) {
+      console.error("Order placement error:", err);
+      setError("An unexpected error occurred. Please check your connection and try again.");
       setIsSubmitting(false);
     }
   }
@@ -184,9 +199,42 @@ export function CheckoutFlow({
           </p>
         </div>
 
-        {error && (
+        {/* Success Message */}
+        {success && (
+          <div className="bg-tertiary-container/30 border-2 border-tertiary/20 rounded-xl p-8 text-center space-y-4 animate-in fade-in-up">
+            <div className="w-16 h-16 rounded-full bg-tertiary/20 flex items-center justify-center mx-auto">
+              <CheckCircle2 className="h-8 w-8 text-tertiary" />
+            </div>
+            <div className="space-y-2">
+              <h2 className="font-headline font-bold text-2xl text-on-surface">
+                Order Placed Successfully!
+              </h2>
+              <p className="font-body text-secondary">
+                Your order reference: <span className="font-mono font-bold text-tertiary">{success.orderRef}</span>
+              </p>
+              <p className="font-body text-sm text-secondary">
+                Redirecting you to the confirmation page...
+              </p>
+            </div>
+            <Button 
+              onClick={() => router.push(`/order-confirmation/${success.orderId}`)}
+              className="bg-tertiary hover:bg-tertiary-container text-on-tertiary"
+            >
+              Go Now <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+        )}
+
+        {/* Error Message */}
+        {error && !success && (
           <div className="rounded-lg bg-error-container px-4 py-3 text-sm text-on-error-container">
-            {error}
+            <p className="font-semibold">{error}</p>
+            <button
+              onClick={() => setError(null)}
+              className="text-xs underline mt-1 hover:no-underline"
+            >
+              Dismiss
+            </button>
           </div>
         )}
 
