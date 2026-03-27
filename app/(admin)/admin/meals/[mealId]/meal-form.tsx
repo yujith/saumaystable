@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Loader2, Trash2 } from "lucide-react";
+import { Loader2, Trash2, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Database } from "@/types/database";
+import Image from "next/image";
 
 type Meal = Database["public"]["Tables"]["meals"]["Row"];
 type Category = Database["public"]["Tables"]["categories"]["Row"];
@@ -34,6 +35,7 @@ const mealSchema = z.object({
   is_available: z.boolean(),
   stock_limit: z.coerce.number().int().min(0).nullable().optional(),
   sort_order: z.coerce.number().int().min(0).optional(),
+  image_url: z.string().optional(),
 });
 
 type MealFormData = z.infer<typeof mealSchema>;
@@ -48,6 +50,10 @@ export function MealForm({
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(meal?.image_url ?? null);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const isNew = !meal;
 
@@ -85,8 +91,73 @@ export function MealForm({
     setValue("slug", slug);
   }
 
+  function handleImageSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      setError("Please select an image file (JPEG, PNG, WebP)");
+      return;
+    }
+    
+    // Validate file size (max 1MB)
+    if (file.size > 1024 * 1024) {
+      setError("Image must be less than 1MB");
+      return;
+    }
+    
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+    setError(null);
+  }
+
+  function clearImage() {
+    setImageFile(null);
+    setImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }
+
+  async function uploadImage(): Promise<string | null> {
+    if (!imageFile) return imagePreview; // Return existing URL if no new file
+    
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", imageFile);
+      
+      const res = await fetch("/api/admin/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+      
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to upload image");
+      }
+      
+      const data = await res.json();
+      return data.url;
+    } catch (err) {
+      console.error("Image upload error:", err);
+      setError(err instanceof Error ? err.message : "Failed to upload image");
+      return null;
+    } finally {
+      setIsUploading(false);
+    }
+  }
+
   async function onSubmit(data: MealFormData) {
     setError(null);
+
+    // Upload image first if selected
+    const imageUrl = await uploadImage();
+    if (imageFile && !imageUrl) {
+      // Upload failed, don't proceed
+      return;
+    }
 
     const payload = {
       name: data.name,
@@ -101,6 +172,7 @@ export function MealForm({
       is_available: data.is_available,
       stock_limit: data.stock_limit ?? null,
       sort_order: data.sort_order ?? 0,
+      image_url: imageUrl,
     };
 
     try {
@@ -185,6 +257,65 @@ export function MealForm({
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Textarea id="description" rows={3} {...register("description")} />
+          </div>
+
+          {/* Image Upload */}
+          <div className="space-y-2">
+            <Label>Meal Image</Label>
+            <div className="flex items-center gap-4">
+              {imagePreview ? (
+                <div className="relative w-32 h-32 rounded-lg overflow-hidden border">
+                  <Image
+                    src={imagePreview}
+                    alt="Meal preview"
+                    fill
+                    className="object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={clearImage}
+                    className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              ) : (
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-32 h-32 rounded-lg border-2 border-dashed border-muted-foreground/25 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-primary/50 hover:bg-muted/50 transition-colors"
+                >
+                  <Upload className="h-6 w-6 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">Upload</span>
+                </div>
+              )}
+              <div className="flex-1">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={handleImageSelect}
+                  className="hidden"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploading}
+                >
+                  {imagePreview ? "Change Image" : "Select Image"}
+                </Button>
+                <p className="text-xs text-muted-foreground mt-2">
+                  JPEG, PNG, or WebP. Max 1MB.
+                </p>
+              </div>
+            </div>
+            {isUploading && (
+              <p className="text-xs text-primary flex items-center gap-1">
+                <Loader2 className="h-3 w-3 animate-spin" />
+                Uploading...
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">

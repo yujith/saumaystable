@@ -14,6 +14,7 @@ const createMealSchema = z.object({
   is_available: z.boolean().optional(),
   stock_limit: z.number().int().min(0).nullable().optional(),
   sort_order: z.number().int().min(0).optional(),
+  image_url: z.string().nullable().optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -63,6 +64,7 @@ export async function POST(request: NextRequest) {
         is_available: parsed.data.is_available ?? true,
         stock_limit: parsed.data.stock_limit ?? null,
         sort_order: parsed.data.sort_order ?? 0,
+        image_url: parsed.data.image_url ?? null,
       })
       .select("id")
       .single();
