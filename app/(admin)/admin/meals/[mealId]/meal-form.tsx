@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import type { Database } from "@/types/database";
 import Image from "next/image";
+import { useToast } from "@/hooks/use-toast";
 
 type Meal = Database["public"]["Tables"]["meals"]["Row"];
 type Category = Database["public"]["Tables"]["categories"]["Row"];
@@ -48,6 +49,7 @@ export function MealForm({
   categories: Category[];
 }) {
   const router = useRouter();
+  const { toast } = useToast();
   const [error, setError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -98,18 +100,32 @@ export function MealForm({
     // Validate file type
     if (!file.type.startsWith("image/")) {
       setError("Please select an image file (JPEG, PNG, WebP)");
+      toast({
+        title: "Invalid file type",
+        description: "Please select an image file (JPEG, PNG, WebP)",
+        variant: "destructive",
+      });
       return;
     }
     
-    // Validate file size (max 1MB)
-    if (file.size > 1024 * 1024) {
-      setError("Image must be less than 1MB");
+    // Validate file size (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      setError("Image must be less than 2MB");
+      toast({
+        title: "File too large",
+        description: "Image must be less than 2MB",
+        variant: "destructive",
+      });
       return;
     }
     
     setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
     setError(null);
+    toast({
+      title: "Image selected",
+      description: `${file.name} ready for upload`,
+    });
   }
 
   function clearImage() {
@@ -139,10 +155,20 @@ export function MealForm({
       }
       
       const data = await res.json();
+      toast({
+        title: "Image uploaded",
+        description: "Your meal image has been uploaded successfully.",
+      });
       return data.url;
     } catch (err) {
       console.error("Image upload error:", err);
-      setError(err instanceof Error ? err.message : "Failed to upload image");
+      const errorMsg = err instanceof Error ? err.message : "Failed to upload image";
+      setError(errorMsg);
+      toast({
+        title: "Upload failed",
+        description: errorMsg,
+        variant: "destructive",
+      });
       return null;
     } finally {
       setIsUploading(false);
@@ -306,7 +332,7 @@ export function MealForm({
                   {imagePreview ? "Change Image" : "Select Image"}
                 </Button>
                 <p className="text-xs text-muted-foreground mt-2">
-                  JPEG, PNG, or WebP. Max 1MB.
+                  JPEG, PNG, or WebP. Max 2MB.
                 </p>
               </div>
             </div>
