@@ -525,6 +525,30 @@ export function CheckoutFlow({
               className="w-full bg-surface-container border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all resize-none font-label text-sm"
             />
           </div>
+
+          {/* Mobile-only Place Order button — shown when the right aside is below the form */}
+          <div className="lg:hidden pt-2 space-y-3">
+            <button
+              onClick={handlePlaceOrder}
+              disabled={isSubmitting}
+              className="w-full bg-primary text-on-primary font-headline font-bold py-5 rounded-lg text-lg flex items-center justify-center gap-3 hover:bg-primary/90 transition-colors shadow-lg active:scale-[0.98] disabled:opacity-50"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Placing Order...
+                </>
+              ) : (
+                <>
+                  Place Order
+                  <span className="material-symbols-outlined">chevron_right</span>
+                </>
+              )}
+            </button>
+            <p className="text-center font-body text-[10px] text-secondary">
+              By placing an order, you agree to Saumya&apos;s Culinary Terms &amp; Conditions.
+            </p>
+          </div>
         </section>
       </div>
 
@@ -538,7 +562,7 @@ export function CheckoutFlow({
             <div className="space-y-6">
               {items.map((item) => (
                 <div key={item.meal.id} className="flex gap-4">
-                  <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-low">
+                  <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-low">
                     {item.meal.image_url ? (
                       <Image
                         src={item.meal.image_url}
