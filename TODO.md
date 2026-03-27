@@ -355,3 +355,32 @@ Applied the "Culinary Letter" design system from `UI/` folder across all custome
 - [x] Build check: `npm run build` passes with zero TypeScript errors (37 routes)
 - [x] Push to GitHub: https://github.com/yujith/saumaystable.git
 - [ ] Replace all DEV PLACEHOLDER photos with real Saumya kitchen/portrait photos before launch
+
+---
+
+## Phase 13 — Delivery Route Planner
+
+Starting location: **Mangala Mawatha, Kadawatha** (lat: 7.0010, lng: 79.9478).
+
+- [x] Build `GET /api/admin/delivery/route` API route with nearest-neighbour TSP algorithm
+  - [x] Accepts `day` (saturday/sunday) + optional `week_start` query params
+  - [x] Fetches all non-cancelled orders for the given day/week with addresses, profiles, and order items
+  - [x] Runs nearest-neighbour greedy TSP from origin to minimise total driving distance
+  - [x] Separates geocoded and un-geocoded stops; un-geocoded stops shown at end with warning flag
+  - [x] Returns ordered stop list with customer name, phone, address GPS, items, total LKR, payment info
+- [x] Build `/app/(admin)/admin/delivery/route-planner/page.tsx` (server component)
+  - [x] Pre-computes current + next delivery week options in SLST
+- [x] Build `route-planner-client.tsx` (client component):
+  - [x] Saturday / Sunday tab selector
+  - [x] Week dropdown (current + next week)
+  - [x] Optimise Route button with loading state
+  - [x] Numbered stop cards: customer name/phone, address, ref code, items, total LKR, COD/bank badge
+  - [x] Navigate-to-stop individual link per geocoded stop
+  - [x] Un-geocoded warning banner if any orders have no GPS coordinates
+  - [x] Google Maps Embed iframe (up to 8-stop preview)
+  - [x] "Open in Google Maps" button — full route with all stops as waypoints
+  - [x] "Print Route Sheet" button
+- [x] Add Route Planner link to admin sidebar (`admin/layout.tsx`) — Route icon, under Delivery
+- [ ] Test: navigate Admin → Delivery → Route Planner, select Saturday, click Optimise Route
+- [ ] Test: verify Google Maps link opens with all stops as waypoints
+

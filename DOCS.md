@@ -255,6 +255,7 @@ The reference code is stored in `orders.order_reference_code` and must be:
 | `POST` | `/api/admin/notifications/send-menu` | Admin | Sends weekly menu notification: email + WhatsApp to all customers + Facebook Page auto-post. |
 | `GET` | `/api/admin/facebook/preview` | Admin | Returns preview object `{ photo_url, caption, hashtags }` for admin to review before publishing. |
 | `POST` | `/api/admin/facebook/post` | Admin | Posts to the Facebook Page via Graph API. Called automatically on menu publish, or manually via retry. |
+| `GET` | `/api/admin/delivery/route` | Admin | Returns optimised delivery stop list for a given day + week using nearest-neighbour TSP from Mangala Mawatha, Kadawatha. Query params: `day` (saturday\|sunday), `week_start` (ISO date, optional). |
 | `GET` | `/api/cron/facebook-token-check` | Vercel Cron | Weekly check — emails admin if Page Access Token expires within 7 days. |
 
 > Update this table whenever a new route is added or an existing one changes signature.
@@ -319,6 +320,34 @@ Location: `/lib/notifications/`
 ---
 
 ## 7. Admin Panel
+
+### Route Planner
+
+**Location:** `/app/(admin)/admin/delivery/route-planner/`
+**API:** `GET /api/admin/delivery/route`
+
+**Purpose:** Generates an optimised delivery sequence for Saumya's dad to deliver all orders for a given Saturday or Sunday with minimal driving distance.
+
+**Starting point (hardcoded):** Mangala Mawatha, Kadawatha — `lat: 7.0010, lng: 79.9478`
+
+**Algorithm:** Nearest-neighbour greedy TSP heuristic. At each step, picks the unvisited stop closest to the current location. O(n²) — efficient for typical weekly volumes (10–40 stops).
+
+**Inputs:**
+- `day`: `saturday` or `sunday`
+- `week_start`: ISO date of the Monday of the delivery week (defaults to current delivery week)
+
+**Output:**
+- Ordered `stops[]` array — each stop: `stopNumber`, `customerName`, `customerPhone`, `address`, `lat`, `lng`, `items`, `totalLkr`, `paymentMethod`, `paymentStatus`, `orderReferenceCode`, `notes`
+- `ungeocodedCount` — count of orders with no GPS coordinates on their address (shown at bottom with warning)
+- `origin` — `{ lat, lng, label }`
+
+**Google Maps integration:**
+- Embed iframe shows the first 8 geocoded stops (Maps Embed API waypoints limit).
+- "Open in Google Maps" button builds a Directions URL with all geocoded stops (up to 25 total) as waypoints.
+
+**Ungeocoded stops:** If a delivery address has no `lat`/`lng`, the order is still shown at the end of the stop list with a ⚠ badge and a warning banner. The admin should ask the customer to update their address.
+
+---
 
 ### Access Control
 
@@ -398,7 +427,7 @@ Rate limit rules (set in Cloudflare dashboard):
 
 | Date | Change | Author |
 |------|--------|--------|
-| 2025-03-26 | Additional features: `/orders` page (user order history), My Orders link in Navbar, admin send-menu API (`/api/admin/notifications/send-menu`) with email+WhatsApp+Facebook blast, slip-uploaded admin notification. 35 routes, build passes. | Cascade |
+| 2026-03-27 | Phase 13: Delivery Route Planner — `GET /api/admin/delivery/route` (nearest-neighbour TSP from Mangala Mawatha Kadawatha), Route Planner page + `RoutePlannerClient`, Route Planner sidebar link. 38 routes, build passes. | Antigravity |
 | 2025-03-26 | Backlog fixes + Phase 11 partial: Auth-aware Navbar (async server component, user name + admin link), login redirect support, payment verify/reject notifications wired. Security audit: HSTS + headers verified, `createServiceClient` only in server routes/libs. 33 routes, build passes. | Cascade |
 | 2025-03-26 | Phase 8 wiring: Email templates (`/lib/notifications/templates.ts`), notification triggers wired into `/api/orders/create` and `/api/admin/orders/[id]`. Payment slip upload route + UI. Cutoff reminder cron. WhatsApp webhook. 33 routes total, build passes. | Cascade |
 | 2025-03-26 | Phase 10: Admin Panel — dashboard (KPI cards, recent orders), order management (list/detail/status/payment verify), meals CRUD, customer list, delivery zones list, settings (bank account/business profile/delivery fee). Admin layout with sidebar + mobile nav. 6 admin API routes. 25 routes total, build passes. | Cascade |
