@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { OrderTimeline } from "./order-timeline";
 import { SlipUpload } from "../../order-confirmation/[orderId]/slip-upload";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { CreditCard } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Order Tracking | Saumya's Table",
@@ -155,7 +158,7 @@ export default async function OrderTrackingPage({
             </div>
           </div>
 
-          {/* Payment slip upload for bank transfer orders */}
+          {/* Payment slip upload for bank transfer orders - only for logged-in owners */}
           {order.payment_method === "bank_transfer" &&
             (order.payment_status === "pending" ||
               order.payment_status === "awaiting_verification" ||
@@ -182,6 +185,43 @@ export default async function OrderTrackingPage({
                     <SlipUpload orderId={order.id} />
                   </>
                 )}
+              </div>
+            )}
+
+          {/* Payment upload/view link for bank transfer orders - shown to all users including guests */}
+          {order.payment_method === "bank_transfer" &&
+            (order.payment_status === "pending" ||
+              order.payment_status === "awaiting_verification" ||
+              order.payment_status === "rejected") && (
+              <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 space-y-3">
+                <div className="flex items-start gap-3">
+                  <CreditCard className="h-5 w-5 text-amber-600 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-amber-900">
+                      {order.payment_status === "rejected"
+                        ? "Payment Rejected — Action Required"
+                        : order.payment_status === "awaiting_verification"
+                        ? "Payment Verification In Progress"
+                        : "Payment Required"}
+                    </p>
+                    <p className="text-xs text-amber-800 mt-1">
+                      {order.payment_status === "rejected"
+                        ? "Your payment slip was rejected. Please review the bank details and upload a new slip."
+                        : order.payment_status === "awaiting_verification"
+                        ? "Your payment slip has been uploaded and is being reviewed. Click below to view details or upload a new slip if needed."
+                        : `This order requires bank transfer payment. Use reference code ${order.order_reference_code} when transferring.`}
+                    </p>
+                  </div>
+                </div>
+                <Link href={`/order-confirmation/${order.id}`}>
+                  <Button className="w-full" variant="outline">
+                    {order.payment_status === "rejected"
+                      ? "Re-upload Payment Slip"
+                      : order.payment_status === "awaiting_verification"
+                      ? "View Payment Details"
+                      : "Complete Payment & Upload Slip"}
+                  </Button>
+                </Link>
               </div>
             )}
 

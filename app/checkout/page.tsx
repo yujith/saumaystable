@@ -50,6 +50,17 @@ export default async function CheckoutPage() {
     .eq("user_id", user.id)
     .single();
 
+  // Fetch default delivery fee
+  const { data: deliveryFeeSetting } = await supabase
+    .from("settings")
+    .select("value")
+    .eq("key", "default_delivery_fee")
+    .single();
+
+  const defaultDeliveryFee = typeof deliveryFeeSetting?.value === "number"
+    ? deliveryFeeSetting.value
+    : 0;
+
   return (
     <>
       <Navbar />
@@ -61,6 +72,7 @@ export default async function CheckoutPage() {
             paymentMethods={paymentMethodsSetting?.value as { cod_enabled: boolean; bank_transfer_enabled: boolean } | null}
             profile={profile}
             userEmail={user.email ?? ""}
+            defaultDeliveryFee={defaultDeliveryFee}
           />
         </div>
       </main>

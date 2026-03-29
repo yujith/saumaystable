@@ -328,8 +328,8 @@ All admin routes under `/app/(admin)/admin/` — protected by middleware (admin 
 - [ ] `formatDeliveryDate` export from cutoff.ts used in cart-sheet — verify it handles edge cases near midnight
 - [x] Admin: payment verify/reject notifications wired into verify-payment route (email + WhatsApp)
 - [ ] Image upload for meals not yet implemented (needs client-side compress + Supabase Storage)
-- [ ] Google Maps Places autocomplete on checkout address form (requires API key setup)
-- [ ] Delivery fee calculation based on delivery zone (currently hardcoded to 0)
+- [x] Google Maps Places autocomplete on checkout address form
+- [x] Delivery fee: blanket default_delivery_fee from settings wired into checkout UI + order create API (zone-specific deferred to v2)
 - [ ] Guest checkout: currently redirects to login — need to decide if guest checkout stays in scope for v1
 - [ ] BLOCKER: Real Saumya kitchen photo needed for About page, hero, and sign-off before production launch
 - [ ] IDE lint errors for `Cannot find module './xyz'` are transient — they resolve after build, not actual issues

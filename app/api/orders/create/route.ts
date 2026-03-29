@@ -107,9 +107,17 @@ export async function POST(request: NextRequest) {
       0
     );
 
-    // Get delivery fee from the address's zone (simplified: flat fee for now)
-    // TODO: look up delivery zone fee based on address
-    const deliveryFeeLkr = 0;
+    // Get delivery fee: use default from settings (blanket fee)
+    // TODO: v2 — zone-specific fee lookup based on address
+    const { data: deliveryFeeSetting } = await serviceClient
+      .from("settings")
+      .select("value")
+      .eq("key", "default_delivery_fee")
+      .single();
+
+    const deliveryFeeLkr = typeof deliveryFeeSetting?.value === "number"
+      ? deliveryFeeSetting.value
+      : 0;
     const totalLkr = subtotal + deliveryFeeLkr;
 
     // Determine payment status

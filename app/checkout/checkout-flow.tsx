@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useCartStore } from "@/lib/store/cart";
 import { getDeliveryWeek, formatDeliveryDate } from "@/lib/cutoff";
+import { AddressAutocomplete } from "@/components/address-autocomplete";
+import { DeliveryMap } from "@/components/delivery-map";
 import type { Database } from "@/types/database";
 
 type Address = Database["public"]["Tables"]["addresses"]["Row"];
@@ -20,6 +22,7 @@ interface CheckoutFlowProps {
   paymentMethods: { cod_enabled: boolean; bank_transfer_enabled: boolean } | null;
   profile: { name: string | null; phone: string | null; whatsapp_opted_in: boolean } | null;
   userEmail: string;
+  defaultDeliveryFee: number;
 }
 
 function formatLKR(amount: number): string {
@@ -31,6 +34,7 @@ export function CheckoutFlow({
   bankDetails,
   paymentMethods,
   profile,
+  defaultDeliveryFee,
 }: CheckoutFlowProps) {
   const items = useCartStore((s) => s.items);
   const deliveryDayPreference = useCartStore((s) => s.deliveryDayPreference);
@@ -59,6 +63,8 @@ export function CheckoutFlow({
     street: "",
     city: "",
     district: "",
+    lat: 0,
+    lng: 0,
   });
 
   const [deliveryInfo, setDeliveryInfo] = useState<{
@@ -82,7 +88,7 @@ export function CheckoutFlow({
   const router = useRouter();
 
   const subtotal = mounted ? getSubtotal() : 0;
-  const deliveryFee = 0;
+  const deliveryFee = defaultDeliveryFee;
   const total = subtotal + deliveryFee;
 
   if (!mounted) return null;
@@ -167,16 +173,15 @@ export function CheckoutFlow({
         return;
       }
 
-      clearCart();
-      
-      // Show success message before redirecting
+      // Don't clear cart yet - show success first
       setSuccess({
         orderId: result.orderId,
         orderRef: result.orderReferenceCode || result.orderId.slice(0, 8),
       });
       
-      // Delay redirect slightly so user sees the success message
+      // Delay redirect and clear cart after user sees success
       setTimeout(() => {
+        clearCart();
         router.push(`/order-confirmation/${result.orderId}`);
       }, 2000);
     } catch (err) {
@@ -238,8 +243,9 @@ export function CheckoutFlow({
           </div>
         )}
 
-        {/* Step 1: Delivery Address */}
-        <section className="bg-surface-container-lowest p-6 lg:p-8 rounded-xl shadow-editorial space-y-6">
+        {/* Step 1: Delivery Address - hide when success */}
+        {!success && (
+          <section className="bg-surface-container-lowest p-6 lg:p-8 rounded-xl shadow-editorial space-y-6">
           <div className="flex items-center gap-4">
             <span className="w-10 h-10 rounded-full bg-tertiary-container text-white flex items-center justify-center font-headline font-bold">
               1
@@ -302,17 +308,22 @@ export function CheckoutFlow({
               {/* New Address Form */}
               {(showNewAddress || addresses.length === 0) && (
                 <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label className="font-headline font-semibold text-xs text-secondary uppercase tracking-widest">
-                      Street Address
-                    </Label>
-                    <Input
-                      placeholder="45 Galle Road, Colombo 03"
-                      value={newAddress.street}
-                      onChange={(e) => setNewAddress((p) => ({ ...p, street: e.target.value }))}
-                      className="bg-surface-container border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all"
-                    />
-                  </div>
+                  <AddressAutocomplete
+                    defaultValue={newAddress.street}
+                    onChange={(value) => setNewAddress((p) => ({ ...p, street: value }))}
+                    onPlaceSelect={(place) => {
+                      setNewAddress((p) => ({
+                        ...p,
+                        street: place.street,
+                        city: place.city,
+                        district: place.district,
+                        lat: place.lat,
+                        lng: place.lng,
+                      }));
+                    }}
+                    label="Street Address"
+                    placeholder="Start typing your address..."
+                  />
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label className="font-headline font-semibold text-xs text-secondary uppercase tracking-widest">
@@ -379,25 +390,19 @@ export function CheckoutFlow({
 
             {/* Right: Map */}
             <div className="hidden lg:block">
-              <div className="relative h-64 lg:h-full min-h-[280px] rounded-lg overflow-hidden group bg-surface-container">
-                <div className="absolute inset-0 bg-gradient-to-br from-surface-container-low via-surface-container to-surface-container-high opacity-50" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="material-symbols-outlined text-primary text-5xl mb-3" style={{ fontVariationSettings: "'FILL' 1" }}>location_on</span>
-                  <div className="bg-surface-container-lowest px-5 py-3 rounded-full shadow-lg font-headline font-bold text-xs">
-                    Pin Dropped
-                  </div>
-                  <p className="mt-4 text-xs text-secondary font-label">
-                    Delivery to {newAddress.city || "Colombo"}
-                  </p>
-                </div>
-                <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
-              </div>
+              <DeliveryMap
+                lat={newAddress.lat}
+                lng={newAddress.lng}
+                city={newAddress.city}
+              />
             </div>
           </div>
         </section>
+        )}
 
         {/* Step 2: Payment Method */}
-        <section className="bg-surface-container-lowest p-6 lg:p-8 rounded-xl shadow-editorial space-y-6">
+        {!success && (
+          <section className="bg-surface-container-lowest p-6 lg:p-8 rounded-xl shadow-editorial space-y-6">
           <div className="flex items-center gap-4">
             <span className="w-10 h-10 rounded-full bg-tertiary-container text-white flex items-center justify-center font-headline font-bold">
               2
@@ -550,10 +555,12 @@ export function CheckoutFlow({
             </p>
           </div>
         </section>
+        )}
       </div>
 
-      {/* Right Column: Sticky Order Summary */}
-      <aside className="lg:col-span-4">
+      {/* Right Column: Sticky Order Summary - hide when success */}
+      {!success && (
+        <aside className="lg:col-span-4">
         <div className="lg:sticky lg:top-24 h-fit">
           <div className="bg-surface-container p-6 lg:p-8 rounded-xl shadow-editorial space-y-8">
             <h2 className="font-headline font-bold text-2xl text-on-surface">Your Selection</h2>
@@ -664,6 +671,7 @@ export function CheckoutFlow({
           </div>
         </div>
       </aside>
+      )}
     </div>
   );
 }

@@ -226,12 +226,19 @@ The reference code is stored in `orders.order_reference_code` and must be:
 3. Bank account details are fetched from `settings.bank_account`.
 4. Customer is shown: bank name, account number, account name, and their unique reference code.
 5. Customer completes the transfer via their own banking app, using the reference code as the payment description.
-6. Customer uploads a photo of the payment slip on the order confirmation page (or directly in checkout).
+6. Customer uploads a photo of the payment slip on the **order confirmation page** (`/order-confirmation/[orderId]`) or from the **order tracking page** (`/orders/[orderId]`) via the "Complete Payment & Upload Slip" button.
 7. Slip is uploaded to Supabase Storage at path `payment-slips/{order_id}/{timestamp}.webp`.
 8. `payment_slips` row is inserted. `orders.payment_status` remains `awaiting_verification`.
 9. Admin receives a WhatsApp message and email notifying them of the new slip.
 10. Admin views slip in the admin panel, cross-references the reference code, and taps Verify or Reject.
 11. Customer receives WhatsApp + email notification of the outcome.
+
+**Payment Slip Upload Accessibility:**
+- **Order Confirmation Page** (`/order-confirmation/[orderId]`): Accessible to anyone with the order ID. Shows bank details and upload UI. Primary path for initial upload.
+- **Order Tracking Page** (`/orders/[orderId]`): 
+  - Logged-in order owners: Direct upload UI inline
+  - All users (including guests): "Complete Payment & Upload Slip" button linking to the confirmation page
+- **API Route**: `POST /api/orders/[id]/slip` — requires authentication and order ownership
 
 ---
 
@@ -427,6 +434,7 @@ Rate limit rules (set in Cloudflare dashboard):
 
 | Date | Change | Author |
 |------|--------|--------|
+| 2026-03-29 | Added "Complete Payment & Upload Slip" link to order tracking page (`/orders/[orderId]`). This allows guest users and logged-in users to navigate to the order confirmation page to upload payment slips for bank transfer orders with `pending` or `rejected` payment status. Fixes accessibility issue where only order owners could upload slips from the tracking page. | Cascade |
 | 2026-03-27 | Phase 13: Delivery Route Planner — `GET /api/admin/delivery/route` (nearest-neighbour TSP from Mangala Mawatha Kadawatha), Route Planner page + `RoutePlannerClient`, Route Planner sidebar link. 38 routes, build passes. | Antigravity |
 | 2025-03-26 | Backlog fixes + Phase 11 partial: Auth-aware Navbar (async server component, user name + admin link), login redirect support, payment verify/reject notifications wired. Security audit: HSTS + headers verified, `createServiceClient` only in server routes/libs. 33 routes, build passes. | Cascade |
 | 2025-03-26 | Phase 8 wiring: Email templates (`/lib/notifications/templates.ts`), notification triggers wired into `/api/orders/create` and `/api/admin/orders/[id]`. Payment slip upload route + UI. Cutoff reminder cron. WhatsApp webhook. 33 routes total, build passes. | Cascade |

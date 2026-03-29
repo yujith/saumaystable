@@ -26,9 +26,9 @@ export function MealCard({ meal }: { meal: Meal }) {
   };
 
   return (
-    <article className={`group ${!meal.is_available ? "opacity-70 grayscale-[0.4]" : ""}`}>
+    <article className={`group flex flex-col h-full ${!meal.is_available ? "opacity-70 grayscale-[0.4]" : ""}`}>
       {/* Image */}
-      <div className="relative aspect-[4/5] rounded-xl overflow-hidden mb-6 bg-surface-container">
+      <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-surface-container shrink-0">
         {meal.image_url ? (
           <Image
             src={meal.image_url}
