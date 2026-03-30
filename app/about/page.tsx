@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
@@ -57,9 +58,15 @@ export default function AboutPage() {
           {/* Chef photo */}
           <div className="lg:col-span-5 order-1 lg:order-2">
             <div className="relative">
-              <div className="aspect-[4/5] rounded-xl overflow-hidden editorial-shadow rotate-2 bg-surface-container-low flex items-center justify-center">
-                {/* DEV PLACEHOLDER — replace with real Saumya portrait before launch */}
-                <span className="text-[10rem] opacity-20">👩‍🍳</span>
+              <div className="aspect-[4/5] rounded-xl overflow-hidden editorial-shadow rotate-2 bg-surface-container-low relative">
+                <Image
+                  src="/saumya-kitchen.png"
+                  alt="Saumya with her freshly prepared Sri Lankan meals"
+                  fill
+                  className="object-cover object-center"
+                  priority
+                  quality={85}
+                />
               </div>
               <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-secondary-container rounded-full -z-10" />
             </div>
@@ -146,9 +153,14 @@ export default function AboutPage() {
 
         {/* ── Sign-off ─────────────────────────────────────────── */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center bg-surface-container-low p-8 md:p-16 rounded-xl mb-16">
-          <div className="h-72 rounded-lg bg-surface-container flex items-center justify-center overflow-hidden">
-            {/* DEV PLACEHOLDER — replace with rustic table/letter photo */}
-            <span className="text-[8rem] opacity-20">✉️</span>
+          <div className="h-72 rounded-lg bg-surface-container overflow-hidden relative">
+            <Image
+              src="/saumya-kitchen.png"
+              alt="Saumya in her kitchen"
+              fill
+              className="object-cover object-top"
+              quality={75}
+            />
           </div>
 
           <div className="space-y-8">

@@ -26,11 +26,15 @@ export default async function Home() {
         <section className="relative w-full min-h-[870px] flex items-center overflow-hidden px-6 lg:px-24">
           {/* Background image */}
           <div className="absolute inset-0 z-0">
-            {/* DEV PLACEHOLDER — replace with real Saumya kitchen photo before launch */}
-            <div className="w-full h-full bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 flex items-center justify-center">
-              <span className="text-[12rem] opacity-10">🍛</span>
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/50 to-transparent" />
+            <Image
+              src="/saumya-kitchen.png"
+              alt="Saumya in her kitchen with freshly prepared Sri Lankan meals"
+              fill
+              className="object-cover object-center"
+              priority
+              quality={85}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent" />
           </div>
 
           {/* Hero copy */}
@@ -160,9 +164,14 @@ export default async function Home() {
         <section className="py-24 px-6 grid md:grid-cols-2 gap-16 items-center max-w-screen-xl mx-auto">
           <div className="order-2 md:order-1">
             <div className="relative">
-              <div className="h-80 rounded-xl sun-shadow bg-surface-container-low flex items-center justify-center overflow-hidden">
-                {/* DEV PLACEHOLDER — replace with spice flat-lay photo */}
-                <span className="text-[8rem] opacity-20">🌿</span>
+              <div className="h-80 rounded-xl sun-shadow bg-surface-container-low overflow-hidden relative">
+                <Image
+                  src="/saumya-kitchen.png"
+                  alt="Saumya preparing meals in her kitchen"
+                  fill
+                  className="object-cover object-center"
+                  quality={75}
+                />
               </div>
               <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-secondary-container rounded-lg -z-10" />
             </div>

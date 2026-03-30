@@ -78,7 +78,7 @@
 - [x] SEO: title = "About Saumya | Saumya's Table", description from PRD
 - [x] Homepage updated with Navbar, Footer, Hero, HowItWorks, CTA
 - [x] Build passes with zero TypeScript errors
-- [ ] BLOCKER: Confirm real Saumya kitchen photo is ready before marking this phase complete
+- [x] BLOCKER: Real Saumya kitchen photo added to /public/saumya-kitchen.png and wired into hero + about page
 
 ---
 
@@ -331,7 +331,7 @@ All admin routes under `/app/(admin)/admin/` — protected by middleware (admin 
 - [x] Google Maps Places autocomplete on checkout address form
 - [x] Delivery fee: blanket default_delivery_fee from settings wired into checkout UI + order create API (zone-specific deferred to v2)
 - [ ] Guest checkout: currently redirects to login — need to decide if guest checkout stays in scope for v1
-- [ ] BLOCKER: Real Saumya kitchen photo needed for About page, hero, and sign-off before production launch
+- [x] BLOCKER: Real Saumya kitchen photo added — homepage hero, about CTA, about hero, about sign-off
 - [ ] IDE lint errors for `Cannot find module './xyz'` are transient — they resolve after build, not actual issues
 
 ---
@@ -354,7 +354,7 @@ Applied the "Culinary Letter" design system from `UI/` folder across all custome
 - [x] Update `app/menu/page.tsx` — countdown banner inside main, sticky filter bar, editorial header
 - [x] Build check: `npm run build` passes with zero TypeScript errors (37 routes)
 - [x] Push to GitHub: https://github.com/yujith/saumaystable.git
-- [ ] Replace all DEV PLACEHOLDER photos with real Saumya kitchen/portrait photos before launch
+- [x] Replace all DEV PLACEHOLDER photos with real Saumya kitchen/portrait photos
 
 ---
 
