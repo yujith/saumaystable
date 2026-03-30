@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CartSheet } from "@/components/cart-sheet";
 import { AnnouncementBanner } from "@/components/announcement-banner";
 import { createClient } from "@/lib/supabase/server";
@@ -34,11 +35,15 @@ export async function Navbar() {
       <header className="fixed top-0 w-full z-50 glass-nav shadow-sm">
         <div className="flex justify-between items-center w-full max-w-screen-xl mx-auto px-6 py-4">
           {/* Brand */}
-          <Link
-            href="/"
-            className="font-serif italic font-bold text-primary text-xl tracking-tight hover:opacity-80 transition-opacity"
-          >
-            Saumya&apos;s Table
+          <Link href="/" className="hover:opacity-80 transition-opacity">
+            <Image
+              src="/logo.png"
+              alt="Saumya's Table"
+              width={140}
+              height={40}
+              className="h-8 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop nav */}
