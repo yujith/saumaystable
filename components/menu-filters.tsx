@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useTransition } from "react";
 import type { Database } from "@/types/database";
 
 type Category = Database["public"]["Tables"]["categories"]["Row"];
@@ -10,6 +10,7 @@ export function CategoryFilter({ categories }: { categories: Category[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
 
   const activeCategory = searchParams.get("category") ?? "all";
 
@@ -28,7 +29,9 @@ export function CategoryFilter({ categories }: { categories: Category[] }) {
 
   function setCategory(categoryId: string) {
     const qs = createQueryString("category", categoryId);
-    router.push(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
+    startTransition(() => {
+      router.push(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
+    });
   }
 
   const pillBase =
@@ -71,6 +74,7 @@ export function DietaryFilter() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
 
   const activeTags = searchParams.get("tags")?.split(",").filter(Boolean) ?? [];
 
@@ -90,10 +94,12 @@ export function DietaryFilter() {
       params.delete("tags");
     }
 
-    router.push(
-      `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
-      { scroll: false }
-    );
+    startTransition(() => {
+      router.push(
+        `${pathname}${params.toString() ? `?${params.toString()}` : ""}`,
+        { scroll: false }
+      );
+    });
   }
 
   return (

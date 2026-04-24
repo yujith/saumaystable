@@ -340,6 +340,11 @@ All admin routes under `/app/(admin)/admin/` — protected by middleware (admin 
   - [x] Added Suspense boundaries with skeleton fallbacks
   - [x] Created loading.tsx for instant navigation feedback
   - [x] Increased revalidate to 300s to reduce server load
+- [x] Fixed navigation lag between menu items:
+  - [x] Navbar: async server component → sync (user data loads client-side)
+  - [x] AnnouncementBanner: async → client-side loading
+  - [x] Added prefetch={true} to nav links
+  - [x] Added useTransition to menu filters for non-blocking navigation
 
 ---
 

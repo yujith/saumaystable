@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { CartSheet } from "@/components/cart-sheet";
 import { AnnouncementBanner } from "@/components/announcement-banner";
-import { createClient } from "@/lib/supabase/server";
+import { UserNav } from "@/components/user-nav";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -9,25 +9,8 @@ const navLinks = [
   { href: "/about", label: "About the Chef" },
 ];
 
-export async function Navbar() {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  let displayName: string | null = null;
-  let isAdmin = false;
-
-  if (user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("name, role")
-      .eq("user_id", user.id)
-      .single();
-    displayName = profile?.name || user.email?.split("@")[0] || "Account";
-    isAdmin = profile?.role === "admin";
-  }
-
+// Synchronous server component - no async data fetching that blocks navigation
+export function Navbar() {
   return (
     <>
       <AnnouncementBanner />
@@ -47,50 +30,19 @@ export async function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
+                prefetch={true}
                 className="font-headline font-semibold text-sm text-on-surface hover:text-primary transition-colors"
               >
                 {link.label}
               </Link>
             ))}
-            {user && (
-              <Link
-                href="/orders"
-                className="font-headline font-semibold text-sm text-on-surface hover:text-primary transition-colors"
-              >
-                My Orders
-              </Link>
-            )}
-            {isAdmin && (
-              <Link
-                href="/admin"
-                className="font-headline font-semibold text-xs text-on-surface-variant hover:text-primary transition-colors"
-              >
-                Admin
-              </Link>
-            )}
+            {/* User nav loads client-side without blocking page navigation */}
+            <UserNav />
           </nav>
 
           {/* Right actions */}
           <div className="flex items-center gap-4">
             <CartSheet />
-            {user ? (
-              <Link
-                href="/profile"
-                className="hidden md:flex items-center gap-2 font-headline font-semibold text-sm text-on-surface hover:text-primary transition-colors"
-              >
-                <span className="material-symbols-outlined text-primary" style={{ fontSize: "20px" }}>
-                  person
-                </span>
-                <span className="text-xs">{displayName}</span>
-              </Link>
-            ) : (
-              <Link
-                href="/login"
-                className="hidden md:flex items-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-full font-headline font-bold text-sm hover:bg-primary-container transition-colors"
-              >
-                Log In
-              </Link>
-            )}
 
             {/* Mobile hamburger */}
             <button className="md:hidden text-primary hover:opacity-80 transition-opacity">
