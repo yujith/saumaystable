@@ -11,6 +11,7 @@ interface DeliveryMapProps {
 // Default center: Colombo, Sri Lanka
 const DEFAULT_CENTER = { lat: 6.9271, lng: 79.8612 };
 
+let mapOptionsSet = false;
 let mapLoadPromise: Promise<google.maps.MapsLibrary> | null = null;
 let markerLoadPromise: Promise<google.maps.MarkerLibrary> | null = null;
 
@@ -20,10 +21,13 @@ async function ensureMapLoaded(): Promise<{
 }> {
   const { setOptions, importLibrary } = await import("@googlemaps/js-api-loader");
 
-  setOptions({
-    key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
-    v: "weekly",
-  });
+  if (!mapOptionsSet) {
+    setOptions({
+      key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
+      v: "weekly",
+    });
+    mapOptionsSet = true;
+  }
 
   if (!mapLoadPromise) {
     mapLoadPromise = importLibrary("maps");

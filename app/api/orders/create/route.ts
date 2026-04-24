@@ -198,10 +198,12 @@ export async function POST(request: NextRequest) {
         .eq("user_id", user.id)
         .single();
       if (profile) {
-        customerEmail = profile.email || customerEmail;
+        customerEmail = profile.email || user.email || customerEmail;
         customerName = profile.name || "there";
         customerPhone = profile.phone || customerPhone;
         whatsappOptedIn = profile.whatsapp_opted_in;
+      } else {
+        customerEmail = user.email || customerEmail;
       }
     }
 
