@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "View your order history.",
 };
 
+export const revalidate = 60; // Cache for 1 minute
+
 const statusColors: Record<string, string> = {
   placed: "bg-blue-100 text-blue-800",
   confirmed: "bg-indigo-100 text-indigo-800",
