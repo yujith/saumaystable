@@ -87,8 +87,12 @@ export async function login(formData: FormData): Promise<AuthActionResult> {
     return { error: error.message };
   }
 
-  const redirectTo = formData.get("redirect") as string;
-  redirect(redirectTo || "/");
+  const rawRedirect = formData.get("redirect") as string;
+  const redirectTo =
+    rawRedirect && rawRedirect.startsWith("/") && !rawRedirect.startsWith("//")
+      ? rawRedirect
+      : "/";
+  redirect(redirectTo);
 }
 
 export async function logout(): Promise<void> {

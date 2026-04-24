@@ -68,7 +68,13 @@ export async function POST(
     const serviceClient = createServiceClient();
 
     // Upload to Supabase Storage
-    const fileExt = file.name.split(".").pop() || "jpg";
+    const mimeToExt: Record<string, string> = {
+      "image/jpeg": "jpg",
+      "image/png": "png",
+      "image/webp": "webp",
+      "image/heic": "heic",
+    };
+    const fileExt = mimeToExt[file.type] ?? "jpg";
     const filePath = `${params.id}/${Date.now()}.${fileExt}`;
 
     const arrayBuffer = await file.arrayBuffer();

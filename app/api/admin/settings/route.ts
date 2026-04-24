@@ -3,8 +3,21 @@ import type { NextRequest } from "next/server";
 import { createClient, createServiceClient } from "@/lib/supabase/server";
 import { z } from "zod";
 
+const ALLOWED_SETTINGS_KEYS = [
+  "business_profile",
+  "bank_account",
+  "cutoff_override",
+  "holiday_mode",
+  "delivery_slots",
+  "payment_methods",
+  "announcement_banner",
+  "facebook_integration",
+  "seo",
+  "default_delivery_fee",
+] as const;
+
 const updateSettingSchema = z.object({
-  key: z.string().min(1),
+  key: z.enum(ALLOWED_SETTINGS_KEYS),
   value: z.unknown(),
 });
 

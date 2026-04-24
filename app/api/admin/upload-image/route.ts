@@ -50,8 +50,13 @@ export async function POST(request: NextRequest) {
 
     const serviceClient = createServiceClient();
 
-    // Generate unique filename
-    const ext = file.name.split(".").pop() || "jpg";
+    // Generate unique filename — extension derived from MIME type, not user filename
+    const mimeToExt: Record<string, string> = {
+      "image/jpeg": "jpg",
+      "image/png": "png",
+      "image/webp": "webp",
+    };
+    const ext = mimeToExt[file.type] ?? "jpg";
     const filename = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${ext}`;
     const path = `meals/${filename}`;
 
@@ -76,8 +81,7 @@ export async function POST(request: NextRequest) {
       .getPublicUrl(path);
 
     return NextResponse.json({ url: urlData.publicUrl });
-  } catch (error) {
-    console.error("Image upload error:", error);
+  } catch {
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 }

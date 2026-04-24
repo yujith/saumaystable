@@ -324,7 +324,7 @@ All admin routes under `/app/(admin)/admin/` — protected by middleware (admin 
 - [x] `login?redirect=` support: checkout redirects to `/login?redirect=/checkout`, login action reads redirect param
 - [ ] Cart store: sync to Supabase for logged-in users (currently localStorage only)
 - [ ] `/orders/[orderId]` page is 60KB first load JS due to Supabase Realtime client — consider lazy loading
-- [ ] Add Meta signature verification (X-Hub-Signature-256) to WhatsApp webhook
+- [x] Add Meta signature verification (X-Hub-Signature-256) to WhatsApp webhook
 - [ ] `formatDeliveryDate` export from cutoff.ts used in cart-sheet — verify it handles edge cases near midnight
 - [x] Admin: payment verify/reject notifications wired into verify-payment route (email + WhatsApp)
 - [ ] Image upload for meals not yet implemented (needs client-side compress + Supabase Storage)

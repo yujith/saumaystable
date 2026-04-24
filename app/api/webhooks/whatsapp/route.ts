@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createServiceClient } from "@/lib/supabase/server";
+import { createHmac, timingSafeEqual } from "crypto";
 
 /**
  * WhatsApp Cloud API webhook for receiving message delivery status updates.
@@ -27,8 +28,28 @@ export async function GET(request: NextRequest) {
 // POST — receive delivery status updates
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const rawBody = await request.text();
+    const appSecret = process.env.WHATSAPP_APP_SECRET;
 
+    if (appSecret) {
+      const signature = request.headers.get("x-hub-signature-256");
+      if (!signature) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+      const expected = `sha256=${createHmac("sha256", appSecret)
+        .update(rawBody)
+        .digest("hex")}`;
+      const sigBuf = Buffer.from(signature);
+      const expBuf = Buffer.from(expected);
+      if (
+        sigBuf.length !== expBuf.length ||
+        !timingSafeEqual(sigBuf, expBuf)
+      ) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+    }
+
+    const body = JSON.parse(rawBody);
     const serviceClient = createServiceClient();
 
     // Parse Meta webhook payload

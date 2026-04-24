@@ -46,6 +46,7 @@ Full stack reference: see `TECH_STACK.md`.
 | `WHATSAPP_ACCESS_TOKEN` | Server only | Meta WhatsApp Cloud API access token. |
 | `WHATSAPP_PHONE_NUMBER_ID` | Server only | The phone number ID from Meta Business Manager. |
 | `WHATSAPP_WEBHOOK_VERIFY_TOKEN` | Server only | Custom token for verifying Meta webhook callbacks. |
+| `WHATSAPP_APP_SECRET` | Server only | Meta App Secret used to verify `X-Hub-Signature-256` on incoming webhook POST requests. Find in Meta App Dashboard → Settings → Basic. |
 | `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Client | Google Maps JS API key. Restrict to your domain in Google Cloud Console. |
 | `CRON_SECRET` | Server only | Secret used to authenticate Vercel Cron Job requests to `/api/cron/cutoff-reminder`. |
 | `FACEBOOK_PAGE_ID` | Server only | The numeric ID of Saumya's Table Facebook Page. Found in Facebook Page settings. |
@@ -434,6 +435,7 @@ Rate limit rules (set in Cloudflare dashboard):
 
 | Date | Change | Author |
 |------|--------|--------|
+| 2026-04-24 | Security audit (Phase 11): Fixed open redirect in `/auth/actions.ts` login + `/auth/callback` (path validation); added `X-Hub-Signature-256` HMAC verification to WhatsApp webhook POST; hardened cron endpoint to reject unconfigured `CRON_SECRET`; settings PATCH key allowlist enforced; file extensions derived from MIME type not user filename; removed `console.error` from upload route; added `Content-Security-Policy` header to `next.config.js`; added `WHATSAPP_APP_SECRET` env var. | Cascade |
 | 2026-03-29 | Added "Complete Payment & Upload Slip" link to order tracking page (`/orders/[orderId]`). This allows guest users and logged-in users to navigate to the order confirmation page to upload payment slips for bank transfer orders with `pending` or `rejected` payment status. Fixes accessibility issue where only order owners could upload slips from the tracking page. | Cascade |
 | 2026-03-27 | Phase 13: Delivery Route Planner — `GET /api/admin/delivery/route` (nearest-neighbour TSP from Mangala Mawatha Kadawatha), Route Planner page + `RoutePlannerClient`, Route Planner sidebar link. 38 routes, build passes. | Antigravity |
 | 2025-03-26 | Backlog fixes + Phase 11 partial: Auth-aware Navbar (async server component, user name + admin link), login redirect support, payment verify/reject notifications wired. Security audit: HSTS + headers verified, `createServiceClient` only in server routes/libs. 33 routes, build passes. | Cascade |
