@@ -10,7 +10,7 @@ function formatLKR(amount: number): string {
   return `LKR ${amount.toLocaleString("en-LK", { minimumFractionDigits: 2 })}`;
 }
 
-export function MealCard({ meal }: { meal: Meal }) {
+export function MealCard({ meal, priority = false }: { meal: Meal; priority?: boolean }) {
   const items = useCartStore((s) => s.items);
   const addItem = useCartStore((s) => s.addItem);
 
@@ -34,6 +34,7 @@ export function MealCard({ meal }: { meal: Meal }) {
             src={meal.image_url}
             alt={meal.name}
             fill
+            priority={priority}
             className="object-cover transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />

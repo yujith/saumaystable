@@ -21,22 +21,16 @@ export default async function MenuPage({
 }) {
   const supabase = createClient();
 
-  // Fetch holiday mode setting
-  const { data: holidaySetting } = await supabase
-    .from("settings")
-    .select("value")
-    .eq("key", "holiday_mode")
-    .single();
+  // Run independent queries in parallel for faster loading
+  const [holidayResult, categoriesResult] = await Promise.all([
+    supabase.from("settings").select("value").eq("key", "holiday_mode").single(),
+    supabase.from("categories").select("*").order("sort_order", { ascending: true }),
+  ]);
 
-  const holidayMode = holidaySetting?.value as { enabled: boolean; message: string } | null;
+  const holidayMode = holidayResult.data?.value as { enabled: boolean; message: string } | null;
+  const categories = categoriesResult.data;
 
-  // Fetch categories
-  const { data: categories } = await supabase
-    .from("categories")
-    .select("*")
-    .order("sort_order", { ascending: true });
-
-  // Build meals query
+  // Build and execute meals query (depends on search params)
   let mealsQuery = supabase
     .from("meals")
     .select("*")
@@ -108,8 +102,8 @@ export default async function MenuPage({
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
-              {sortedMeals.map((meal) => (
-                <MealCard key={meal.id} meal={meal} />
+              {sortedMeals.map((meal, index) => (
+                <MealCard key={meal.id} meal={meal} priority={index < 3} />
               ))}
             </div>
           )}
