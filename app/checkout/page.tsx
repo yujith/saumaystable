@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "Complete your order for weekly home-cooked Sri Lankan meals.",
 };
 
+export const revalidate = 60; // Cache for 1 minute
+
 export default async function CheckoutPage() {
   const supabase = createClient();
 
@@ -21,41 +23,25 @@ export default async function CheckoutPage() {
     redirect("/login?redirect=/checkout");
   }
 
-  // Fetch saved addresses
-  const { data: addresses } = await supabase
-    .from("addresses")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("is_default", { ascending: false })
-    .order("created_at", { ascending: false });
+  // Run independent queries in parallel for faster loading
+  const [addressesResult, bankSettingsResult, paymentMethodsResult, profileResult, deliveryFeeResult] = await Promise.all([
+    supabase
+      .from("addresses")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("is_default", { ascending: false })
+      .order("created_at", { ascending: false }),
+    supabase.from("settings").select("value").eq("key", "bank_account").single(),
+    supabase.from("settings").select("value").eq("key", "payment_methods").single(),
+    supabase.from("profiles").select("name, phone, whatsapp_opted_in").eq("user_id", user.id).single(),
+    supabase.from("settings").select("value").eq("key", "default_delivery_fee").single(),
+  ]);
 
-  // Fetch bank account details from settings
-  const { data: bankSettings } = await supabase
-    .from("settings")
-    .select("value")
-    .eq("key", "bank_account")
-    .single();
-
-  // Fetch payment methods settings
-  const { data: paymentMethodsSetting } = await supabase
-    .from("settings")
-    .select("value")
-    .eq("key", "payment_methods")
-    .single();
-
-  // Fetch user profile for WhatsApp opt-in default
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("name, phone, whatsapp_opted_in")
-    .eq("user_id", user.id)
-    .single();
-
-  // Fetch default delivery fee
-  const { data: deliveryFeeSetting } = await supabase
-    .from("settings")
-    .select("value")
-    .eq("key", "default_delivery_fee")
-    .single();
+  const addresses = addressesResult.data;
+  const bankSettings = bankSettingsResult.data;
+  const paymentMethodsSetting = paymentMethodsResult.data;
+  const profile = profileResult.data;
+  const deliveryFeeSetting = deliveryFeeResult.data;
 
   const defaultDeliveryFee = typeof deliveryFeeSetting?.value === "number"
     ? deliveryFeeSetting.value
