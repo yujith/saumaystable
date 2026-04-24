@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 import { ProfileContent } from "./profile-content";
 
 export const metadata: Metadata = {
@@ -43,11 +45,17 @@ export default async function ProfilePage() {
   const orders = ordersResult.data;
 
   return (
-    <ProfileContent
-      profile={profile}
-      addresses={addresses ?? []}
-      orders={orders ?? []}
-      userEmail={user.email ?? ""}
-    />
+    <>
+      <Navbar />
+      <main className="flex-1">
+        <ProfileContent
+          profile={profile}
+          addresses={addresses ?? []}
+          orders={orders ?? []}
+          userEmail={user.email ?? ""}
+        />
+      </main>
+      <Footer />
+    </>
   );
 }
