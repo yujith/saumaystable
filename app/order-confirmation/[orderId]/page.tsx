@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   description: "Your order has been placed successfully.",
 };
 
+export const revalidate = 60; // Cache for 1 minute
+
 export default async function OrderConfirmationPage({
   params,
 }: {
@@ -24,6 +26,7 @@ export default async function OrderConfirmationPage({
 }) {
   const supabase = createClient();
 
+  // Fetch order first (required for the page)
   const { data: order } = await supabase
     .from("orders")
     .select("*")
@@ -34,22 +37,16 @@ export default async function OrderConfirmationPage({
     notFound();
   }
 
-  // Fetch order items with meal names
-  const { data: orderItems } = await supabase
-    .from("order_items")
-    .select("*, meals(name)")
-    .eq("order_id", order.id);
+  // Run independent queries in parallel
+  const [orderItemsResult, bankSettingsResult] = await Promise.all([
+    supabase.from("order_items").select("*, meals(name)").eq("order_id", order.id),
+    order.payment_method === "bank_transfer"
+      ? supabase.from("settings").select("value").eq("key", "bank_account").single()
+      : Promise.resolve({ data: null }),
+  ]);
 
-  // Fetch bank details if bank transfer
-  let bankDetails: Record<string, string> | null = null;
-  if (order.payment_method === "bank_transfer") {
-    const { data: bankSettings } = await supabase
-      .from("settings")
-      .select("value")
-      .eq("key", "bank_account")
-      .single();
-    bankDetails = bankSettings?.value as Record<string, string> | null;
-  }
+  const orderItems = orderItemsResult.data;
+  const bankDetails = bankSettingsResult.data?.value as Record<string, string> | null;
 
   function formatLKR(amount: number): string {
     return `LKR ${amount.toLocaleString("en-LK", { minimumFractionDigits: 2 })}`;

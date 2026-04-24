@@ -173,17 +173,9 @@ export function CheckoutFlow({
         return;
       }
 
-      // Don't clear cart yet - show success first
-      setSuccess({
-        orderId: result.orderId,
-        orderRef: result.orderReferenceCode || result.orderId.slice(0, 8),
-      });
-      
-      // Delay redirect and clear cart after user sees success
-      setTimeout(() => {
-        clearCart();
-        router.push(`/order-confirmation/${result.orderId}`);
-      }, 2000);
+      // Clear cart and redirect immediately to confirmation page
+      clearCart();
+      router.push(`/order-confirmation/${result.orderId}`);
     } catch (err) {
       console.error("Order placement error:", err);
       setError("An unexpected error occurred. Please check your connection and try again.");
