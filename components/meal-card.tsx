@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useCallback } from "react";
 import { useCartStore, type CartItem } from "@/lib/store/cart";
 import type { Database } from "@/types/database";
 
@@ -11,10 +12,11 @@ function formatLKR(amount: number): string {
 }
 
 export function MealCard({ meal, priority = false }: { meal: Meal; priority?: boolean }) {
-  const items = useCartStore((s) => s.items);
+  // Optimized selector: only re-render when this specific meal's cart status changes
+  const inCart = useCartStore(
+    useCallback((s) => s.items.find((item) => item.meal.id === meal.id), [meal.id])
+  );
   const addItem = useCartStore((s) => s.addItem);
-
-  const inCart = items.find((item) => item.meal.id === meal.id);
 
   const cartMeal: CartItem["meal"] = {
     id: meal.id,

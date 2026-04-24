@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { CountdownTimer } from "@/components/countdown-timer";
 import { MealCard } from "@/components/meal-card";
 import { CategoryFilter, DietaryFilter } from "@/components/menu-filters";
+import { MenuSkeleton, FilterSkeleton, CountdownSkeleton } from "@/components/menu-skeleton";
 
 export const metadata: Metadata = {
   title: "Menu | Saumya's Table",
@@ -12,7 +14,7 @@ export const metadata: Metadata = {
     "Browse this week's home-cooked Sri Lankan meals. Order before Thursday 7 PM for weekend delivery.",
 };
 
-export const revalidate = 60;
+export const revalidate = 300; // 5 minutes - reduces server load while keeping content fresh
 
 export default async function MenuPage({
   searchParams,
@@ -69,7 +71,9 @@ export default async function MenuPage({
         )}
 
         {/* Live Kitchen Banner / Countdown */}
-        <CountdownTimer />
+        <Suspense fallback={<CountdownSkeleton />}>
+          <CountdownTimer />
+        </Suspense>
 
         <div className="max-w-screen-xl mx-auto px-6">
           {/* Page Header */}
@@ -84,7 +88,9 @@ export default async function MenuPage({
 
           {/* Sticky Category Filter */}
           <div className="sticky top-[72px] z-40 bg-background/95 backdrop-blur-md py-4 mb-6">
-            <CategoryFilter categories={categories ?? []} />
+            <Suspense fallback={<FilterSkeleton />}>
+              <CategoryFilter categories={categories ?? []} />
+            </Suspense>
           </div>
 
           {/* Dietary Filters */}
@@ -93,20 +99,22 @@ export default async function MenuPage({
           </div>
 
           {/* Meals Grid */}
-          {sortedMeals.length === 0 ? (
-            <div className="text-center py-24">
-              <span className="text-6xl mb-6 block">🍛</span>
-              <p className="font-body text-on-surface-variant text-lg italic">
-                No meals match your selection — try removing some filters.
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
-              {sortedMeals.map((meal, index) => (
-                <MealCard key={meal.id} meal={meal} priority={index < 3} />
-              ))}
-            </div>
-          )}
+          <Suspense fallback={<MenuSkeleton />}>
+            {sortedMeals.length === 0 ? (
+              <div className="text-center py-24">
+                <span className="text-6xl mb-6 block">🍛</span>
+                <p className="font-body text-on-surface-variant text-lg italic">
+                  No meals match your selection — try removing some filters.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+                {sortedMeals.map((meal, index) => (
+                  <MealCard key={meal.id} meal={meal} priority={index < 3} />
+                ))}
+              </div>
+            )}
+          </Suspense>
 
           {/* Load more hint */}
           {sortedMeals.length > 0 && (

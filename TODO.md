@@ -333,7 +333,13 @@ All admin routes under `/app/(admin)/admin/` — protected by middleware (admin 
 - [ ] Guest checkout: currently redirects to login — need to decide if guest checkout stays in scope for v1
 - [x] BLOCKER: Real Saumya kitchen photo added — homepage hero, about CTA, about hero, about sign-off
 - [ ] IDE lint errors for `Cannot find module './xyz'` are transient — they resolve after build, not actual issues
-- [x] Menu page performance fix: parallelized Supabase queries (was sequential), added priority image loading for first 3 meals
+- [x] Menu page performance fixes:
+  - [x] Parallelized Supabase queries (was sequential)
+  - [x] Added priority image loading for first 3 meals
+  - [x] Optimized Zustand selectors to prevent unnecessary re-renders
+  - [x] Added Suspense boundaries with skeleton fallbacks
+  - [x] Created loading.tsx for instant navigation feedback
+  - [x] Increased revalidate to 300s to reduce server load
 
 ---
 
