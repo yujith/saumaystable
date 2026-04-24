@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
     }
 
     const serviceClient = createServiceClient();
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://saumyastable.lk";
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://saumyastable.org";
 
     // Fetch this week's available meals
     const { data: meals } = await serviceClient

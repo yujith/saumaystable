@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ sent: 0 });
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://saumyastable.lk";
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://saumyastable.org";
     let emailsSent = 0;
     let whatsappSent = 0;
 

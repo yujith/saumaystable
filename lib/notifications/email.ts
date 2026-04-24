@@ -42,7 +42,7 @@ export async function sendEmail({
   const serviceClient = createServiceClient();
 
   try {
-    const fromEmail = process.env.RESEND_FROM_EMAIL || "orders@saumyastable.lk";
+    const fromEmail = process.env.RESEND_FROM_EMAIL || "orders@saumyastable.org";
     const { error } = await getResend().emails.send({
       from: fromEmail,
       to: recipient,

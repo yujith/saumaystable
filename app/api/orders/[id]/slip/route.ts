@@ -129,7 +129,7 @@ export async function POST(
         .select("email")
         .eq("role", "admin");
 
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://saumyastable.lk";
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://saumyastable.org";
       for (const admin of admins ?? []) {
         if (admin.email) {
           sendEmail({

@@ -1,4 +1,4 @@
-const siteUrl = () => process.env.NEXT_PUBLIC_SITE_URL || "https://saumyastable.lk";
+const siteUrl = () => process.env.NEXT_PUBLIC_SITE_URL || "https://saumyastable.org";
 
 function formatLKR(amount: number): string {
   return `LKR ${amount.toLocaleString("en-LK", { minimumFractionDigits: 2 })}`;
@@ -19,7 +19,7 @@ function baseLayout(content: string): string {
   </div>
   <div style="text-align:center;padding:16px 0;color:#9ca3af;font-size:11px;">
     <p>Saumya's Table — Home-cooked Sri Lankan meals, delivered weekly.</p>
-    <p><a href="${siteUrl()}" style="color:#9ca3af;">saumyastable.lk</a></p>
+    <p><a href="${siteUrl()}" style="color:#9ca3af;">saumyastable.org</a></p>
   </div>
 </div>
 </body>

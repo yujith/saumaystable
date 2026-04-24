@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "Saumya's Table — Home-Cooked Sri Lankan Meals Delivered",
   description:
     "Order weekly home-cooked Sri Lankan meals prepared with love by Saumya. Delivery every Saturday & Sunday in Colombo.",
-  metadataBase: new URL("https://saumyastable.lk"),
+  metadataBase: new URL("https://saumyastable.org"),
 };
 
 export default function RootLayout({
