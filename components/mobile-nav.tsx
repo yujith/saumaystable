@@ -29,21 +29,21 @@ export function MobileNav() {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/50 z-50 md:hidden"
+            className="fixed inset-0 bg-black/60 z-[100] md:hidden"
             onClick={() => setIsOpen(false)}
           />
 
           {/* Slide-out menu */}
-          <div className="fixed top-0 right-0 bottom-0 w-[280px] bg-white z-50 md:hidden shadow-xl animate-in slide-in-from-right duration-200">
+          <div className="fixed top-0 right-0 bottom-0 w-[280px] bg-background z-[101] md:hidden shadow-2xl">
             <div className="flex flex-col h-full">
               {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b">
-                <span className="font-serif italic font-bold text-primary">
-                  Saumya&apos;s Table
+              <div className="flex items-center justify-between p-4 border-b border-outline-variant bg-surface-container-low">
+                <span className="font-serif italic font-bold text-primary text-lg">
+                  Menu
                 </span>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="text-primary hover:opacity-80 transition-opacity"
+                  className="text-on-surface hover:text-primary transition-colors p-1"
                   aria-label="Close menu"
                 >
                   <X className="h-6 w-6" />
@@ -51,14 +51,14 @@ export function MobileNav() {
               </div>
 
               {/* Nav links */}
-              <nav className="flex flex-col p-4 gap-2">
+              <nav className="flex flex-col p-2">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     prefetch={true}
                     onClick={() => setIsOpen(false)}
-                    className="font-headline font-semibold text-lg text-on-surface hover:text-primary transition-colors py-3 px-4 rounded-lg hover:bg-surface-container"
+                    className="font-headline font-semibold text-base text-on-surface hover:text-primary hover:bg-surface-container transition-colors py-4 px-4 rounded-lg"
                   >
                     {link.label}
                   </Link>
@@ -66,7 +66,7 @@ export function MobileNav() {
               </nav>
 
               {/* Bottom section with My Orders link */}
-              <div className="mt-auto p-4 border-t">
+              <div className="mt-auto p-2 border-t border-outline-variant bg-surface-container-low">
                 <Link
                   href="/orders"
                   onClick={() => setIsOpen(false)}
