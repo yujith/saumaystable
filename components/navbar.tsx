@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CartSheet } from "@/components/cart-sheet";
 import { AnnouncementBanner } from "@/components/announcement-banner";
 import { UserNav } from "@/components/user-nav";
+import { MobileNav } from "@/components/mobile-nav";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -44,10 +45,8 @@ export function Navbar() {
           <div className="flex items-center gap-4">
             <CartSheet />
 
-            {/* Mobile hamburger */}
-            <button className="md:hidden text-primary hover:opacity-80 transition-opacity">
-              <span className="material-symbols-outlined">menu</span>
-            </button>
+            {/* Mobile navigation */}
+            <MobileNav />
           </div>
         </div>
       </header>
