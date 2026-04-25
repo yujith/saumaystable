@@ -29,13 +29,13 @@ export function MobileNav() {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/60 z-[100] md:hidden"
+            className="fixed inset-0 bg-black/70 z-[100] md:hidden"
             onClick={() => setIsOpen(false)}
           />
 
           {/* Slide-out menu */}
-          <div className="fixed top-0 right-0 bottom-0 w-[280px] bg-background z-[101] md:hidden shadow-2xl">
-            <div className="flex flex-col h-full">
+          <div className="fixed top-0 right-0 bottom-0 w-[280px] z-[101] md:hidden">
+            <div className="flex flex-col h-full bg-surface-container-lowest shadow-2xl">
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-outline-variant bg-surface-container-low">
                 <span className="font-serif italic font-bold text-primary text-lg">
@@ -51,7 +51,7 @@ export function MobileNav() {
               </div>
 
               {/* Nav links */}
-              <nav className="flex flex-col p-2">
+              <nav className="flex flex-col p-2 bg-surface-container-lowest">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
